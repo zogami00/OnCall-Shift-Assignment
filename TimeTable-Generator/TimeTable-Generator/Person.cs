@@ -16,6 +16,7 @@ namespace TimeTable_Generator
         public int WeekendShifts { get; set; }
         public bool ExtraShift {  get; set; } 
         public DateTime? LastAssignedShift { get; set; } // Track last assigned shift
+        public int TotalShifts { get; set; }
 
 
         public Person(string name)
@@ -26,6 +27,7 @@ namespace TimeTable_Generator
             PreferredDates = new List<DateTime>();
             WeekdayShifts = 0;
             WeekendShifts = 0;
+            TotalShifts = 0;
             ExtraShift = false;
         }
 

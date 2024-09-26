@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label_holidays = new System.Windows.Forms.Label();
             this.btn_holidays = new CustomControls.RJControls.RJButton();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.rjButton2 = new CustomControls.RJControls.RJButton();
@@ -51,7 +52,8 @@
             this.AssignedShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeekdayShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeekendShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label_holidays = new System.Windows.Forms.Label();
+            this.label_shift_total = new System.Windows.Forms.Label();
+            this.label_shift_assign = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -61,6 +63,8 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.AntiqueWhite;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label_shift_total);
+            this.panel1.Controls.Add(this.label_shift_assign);
             this.panel1.Controls.Add(this.label_holidays);
             this.panel1.Controls.Add(this.btn_holidays);
             this.panel1.Controls.Add(this.progressBar1);
@@ -79,6 +83,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 597);
             this.panel1.TabIndex = 0;
+            // 
+            // label_holidays
+            // 
+            this.label_holidays.AutoSize = true;
+            this.label_holidays.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label_holidays.Location = new System.Drawing.Point(184, 86);
+            this.label_holidays.Name = "label_holidays";
+            this.label_holidays.Size = new System.Drawing.Size(156, 17);
+            this.label_holidays.TabIndex = 21;
+            this.label_holidays.Text = "Total No of Holidays : 0";
             // 
             // btn_holidays
             // 
@@ -102,9 +116,9 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(481, 77);
+            this.progressBar1.Location = new System.Drawing.Point(629, 36);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(306, 23);
+            this.progressBar1.Size = new System.Drawing.Size(169, 23);
             this.progressBar1.TabIndex = 19;
             this.progressBar1.Visible = false;
             // 
@@ -211,7 +225,7 @@
             // label_date
             // 
             this.label_date.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_date.Location = new System.Drawing.Point(6, 44);
+            this.label_date.Location = new System.Drawing.Point(6, 36);
             this.label_date.Name = "label_date";
             this.label_date.Size = new System.Drawing.Size(606, 35);
             this.label_date.TabIndex = 13;
@@ -362,15 +376,25 @@
             this.WeekendShifts.ReadOnly = true;
             this.WeekendShifts.Width = 79;
             // 
-            // label_holidays
+            // label_shift_total
             // 
-            this.label_holidays.AutoSize = true;
-            this.label_holidays.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label_holidays.Location = new System.Drawing.Point(184, 86);
-            this.label_holidays.Name = "label_holidays";
-            this.label_holidays.Size = new System.Drawing.Size(156, 17);
-            this.label_holidays.TabIndex = 21;
-            this.label_holidays.Text = "Total No of Holidays : 0";
+            this.label_shift_total.AutoSize = true;
+            this.label_shift_total.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label_shift_total.Location = new System.Drawing.Point(475, 71);
+            this.label_shift_total.Name = "label_shift_total";
+            this.label_shift_total.Size = new System.Drawing.Size(99, 17);
+            this.label_shift_total.TabIndex = 22;
+            this.label_shift_total.Text = "Total Shifts : 0";
+            // 
+            // label_shift_assign
+            // 
+            this.label_shift_assign.AutoSize = true;
+            this.label_shift_assign.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label_shift_assign.Location = new System.Drawing.Point(475, 88);
+            this.label_shift_assign.Name = "label_shift_assign";
+            this.label_shift_assign.Size = new System.Drawing.Size(157, 17);
+            this.label_shift_assign.TabIndex = 23;
+            this.label_shift_assign.Text = "Total Shifts Assigned: 0";
             // 
             // frmAddPerson
             // 
@@ -417,5 +441,7 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private CustomControls.RJControls.RJButton btn_holidays;
         private System.Windows.Forms.Label label_holidays;
+        private System.Windows.Forms.Label label_shift_total;
+        private System.Windows.Forms.Label label_shift_assign;
     }
 }

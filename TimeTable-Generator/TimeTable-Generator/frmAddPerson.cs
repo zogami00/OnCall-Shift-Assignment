@@ -1,9 +1,11 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -143,6 +145,29 @@ namespace TimeTable_Generator
 
             label_total.Text = $"Total No of Person : {rowcount.ToString()}";
             label_holidays.Text = $"Total No of Holidays : {holidayscount.ToString()}";
+
+            List<DateTime> allDates = GetAllDates(StartDate, EndDate);
+
+            int shiftcounts = allDates.Count;
+            label_shift_total.Text = $"Total Shifts : {shiftcounts.ToString()}";
+
+            int shiftassigned = 0;
+            foreach(DataGridViewRow row in dataGridView1.Rows)
+            {
+                shiftassigned += (Convert.ToInt32(row.Cells["WeekdayShifts"].Value)) + (Convert.ToInt32(row.Cells["WeekendShifts"].Value));
+            }
+
+            label_shift_assign.Text = $"Total Shifts Assigned: {shiftassigned.ToString()}";
+        }
+
+        private List<DateTime> GetAllDates(DateTime startDate, DateTime endDate)
+        {
+            List<DateTime> allDates = new List<DateTime>();
+            for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+            {
+                allDates.Add(date);
+            }
+            return allDates;
         }
         private void AddPersonDetails_FormClosed(object sender, FormClosedEventArgs e)
         {

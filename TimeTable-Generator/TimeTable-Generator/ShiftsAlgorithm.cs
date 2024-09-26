@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static TimeTable_Generator.Person;
-using ProgressBar = System.Windows.Forms.ProgressBar;
 
 namespace TimeTable_Generator
 {
@@ -23,7 +17,9 @@ namespace TimeTable_Generator
             List<DateTime> weekdays = allDates.Except(weekends).ToList();
 
             // Exclude public holidays from the list of weekdays
-            var weekdaysExcludingHolidays = weekdays.Except(publicHolidays).ToList();
+            var weekdaysExcludingHolidays = weekdays
+                .Where(day => !publicHolidays.Any(holiday => holiday.Date == day.Date))
+                .ToList();
 
             // Combine weekends and public holidays into one list for weekend shifts
             var weekendAndHolidays = weekends.Union(publicHolidays).ToList();
@@ -31,66 +27,108 @@ namespace TimeTable_Generator
             // Initialize a HashSet to track assigned shifts
             HashSet<DateTime> assignedShifts = new HashSet<DateTime>();
 
-            // Calculate total shifts (weekdays + weekends, but not public holidays separately)
-            int totalShifts = weekdaysExcludingHolidays.Count + weekendAndHolidays.Count;
+            // Calculate total shifts (weekdays + weekends, excluding public holidays from weekdays)
+            int totalAvailableShifts = weekdaysExcludingHolidays.Count + weekendAndHolidays.Count;
 
-            // Automatically calculate the ideal number of shifts per person
-            int totalPeople = people.Count;
-            int idealShiftsPerPerson = totalShifts / totalPeople;  // Integer division gives the base number of shifts each person should get
-            int remainingShifts = totalShifts % totalPeople;       // Calculate any leftover shifts
+            // Automatically calculate the total shifts for each person
+            foreach (var person in people)
+            {
+                person.TotalShifts = totalAvailableShifts / people.Count;
+            }
+
+            // Monthly shift targets
+            var monthlyShiftTargets = CalculateMonthlyShiftTargets(people, allDates);
 
             int progress = 0;
 
-            // First pass: Assign regular shifts (both weekdays and weekend/public holidays)
-            AssignRegularShifts(people, weekdaysExcludingHolidays, weekendAndHolidays, assignedShifts, reportProgress, ref progress, totalShifts, idealShiftsPerPerson);
+            // First pass: Assign regular shifts (weekdays + weekend/public holidays)
+            AssignRegularShifts(people, weekdaysExcludingHolidays, weekendAndHolidays, assignedShifts, reportProgress, ref progress, totalAvailableShifts, monthlyShiftTargets);
 
             // Second pass: Assign remaining shifts to people with ExtraShift flag
-            AssignExtraShifts(people, weekdaysExcludingHolidays, weekendAndHolidays, assignedShifts, reportProgress, ref progress, totalShifts);
+            AssignExtraShifts(people, weekdaysExcludingHolidays, weekendAndHolidays, assignedShifts, reportProgress, ref progress, totalAvailableShifts, monthlyShiftTargets);
+
+            // Validate that all shifts have been assigned
+            ValidateAssignedShifts(people, totalAvailableShifts);
+        }
+
+        // Helper method to calculate the ideal number of shifts per person per month
+        private Dictionary<Person, Dictionary<int, int>> CalculateMonthlyShiftTargets(List<Person> people, List<DateTime> allDates)
+        {
+            var targets = new Dictionary<Person, Dictionary<int, int>>();
+
+            // Group all dates by month
+            var monthGroups = allDates.GroupBy(date => date.Month).ToDictionary(g => g.Key, g => g.ToList());
+
+            foreach (var person in people)
+            {
+                targets[person] = new Dictionary<int, int>();
+                int totalShiftsForPerson = person.TotalShifts;  // The total number of shifts this person should get
+
+                foreach (var month in monthGroups.Keys)
+                {
+                    int totalDaysInMonth = monthGroups[month].Count;
+                    int monthProportion = (totalDaysInMonth * totalShiftsForPerson) / allDates.Count;  // Proportional distribution
+                    targets[person][month] = monthProportion;
+                }
+            }
+
+            return targets;
         }
 
 
-        private void AssignRegularShifts(List<Person> people, List<DateTime> weekdays, List<DateTime> weekendAndHolidays, HashSet<DateTime> assignedShifts, Action<int> reportProgress, ref int progress, int totalShifts, int idealShiftsPerPerson)
+        // Assign regular shifts (both weekdays and weekends) across months
+        private void AssignRegularShifts(List<Person> people, List<DateTime> weekdays, List<DateTime> weekendAndHolidays, HashSet<DateTime> assignedShifts, Action<int> reportProgress, ref int progress, int totalShifts, Dictionary<Person, Dictionary<int, int>> monthlyShiftTargets)
         {
-            // Assign regular weekday shifts
+            // Assign weekday shifts
             foreach (DateTime weekday in weekdays)
             {
-                AssignShift(people, weekday, isWeekend: false, ref progress, totalShifts, reportProgress, idealShiftsPerPerson, assignedShifts);
+                AssignShift(people, weekday, isWeekend: false, ref progress, totalShifts, reportProgress, assignedShifts, monthlyShiftTargets);
             }
 
-            // Assign regular weekend/public holiday shifts
+            // Assign weekend/public holiday shifts
             foreach (DateTime weekend in weekendAndHolidays)
             {
-                AssignShift(people, weekend, isWeekend: true, ref progress, totalShifts, reportProgress, idealShiftsPerPerson, assignedShifts);
+                AssignShift(people, weekend, isWeekend: true, ref progress, totalShifts, reportProgress, assignedShifts, monthlyShiftTargets);
             }
         }
 
-
-        private bool AssignShift(List<Person> people, DateTime date, bool isWeekend, ref int progress, int totalShifts, Action<int> reportProgress, int idealShiftsPerPerson, HashSet<DateTime> assignedShifts)
+        // Assign a single shift to an eligible person
+        private bool AssignShift(List<Person> people, DateTime date, bool isWeekend, ref int progress, int totalShifts, Action<int> reportProgress, HashSet<DateTime> assignedShifts, Dictionary<Person, Dictionary<int, int>> monthlyShiftTargets, bool allowRelaxation = false)
         {
             bool shiftAssigned = false;
             string reason = "";  // Track the reason for skipping
+            int month = date.Month;
 
-            // Sort people by balance of shifts (weekdays and weekends) and total number of assigned shifts
-            var sortedPeople = people
-                .Where(p => p.WeekdayShifts + p.WeekendShifts < idealShiftsPerPerson)  // Only assign to those who haven't reached the ideal number of shifts yet
-                .OrderBy(p => Math.Abs(p.WeekendShifts - p.WeekdayShifts))  // Prioritize people with unbalanced shifts between weekday and weekend
-                .ThenBy(p => p.WeekendShifts + p.WeekdayShifts)    // Prioritize people with fewer total shifts
-                .ToList();
+            // Prioritize people differently for weekday vs. weekend shifts
+            var sortedPeople = isWeekend
+                ? people.OrderBy(p => p.WeekendShifts)  // Prioritize people with fewer weekend shifts
+                        .ThenBy(p => p.WeekdayShifts)   // Break ties by giving priority to people with fewer total shifts
+                        .ToList()
+                : people.OrderBy(p => p.WeekdayShifts)  // Prioritize people with fewer weekday shifts
+                        .ThenBy(p => p.WeekendShifts)   // Break ties by giving priority to people with fewer total shifts
+                        .ToList();
 
             foreach (var currentPerson in sortedPeople)
             {
-                // Check leave dates and consecutive day constraints
+                // Relax the constraint for monthly shift target if necessary
+                if (!allowRelaxation && monthlyShiftTargets[currentPerson][month] <= 0)
+                {
+                    reason = $"{currentPerson.Name} has reached their monthly shift limit for {month}.";
+                    continue;  // Move to the next person
+                }
+
+                // Check if the person is on leave or has consecutive shift issues
                 if (currentPerson.LeaveDates.Contains(date.Date))
                 {
-                    reason = $"{currentPerson.Name} is on leave for {date.ToShortDateString()}";
+                    reason = $"{currentPerson.Name} is on leave for {date.ToShortDateString()}.";
                 }
                 else if (currentPerson.LastAssignedShift.HasValue && (date - currentPerson.LastAssignedShift.Value).Days == 1)
                 {
-                    reason = $"{currentPerson.Name} has a consecutive shift issue for {date.ToShortDateString()}";
+                    reason = $"{currentPerson.Name} has a consecutive shift issue for {date.ToShortDateString()}.";
                 }
                 else
                 {
-                    // Assign the shift (weekend or weekday)
+                    // Assign the shift to the person
                     currentPerson.AssignedShifts.Add(date);
                     if (isWeekend)
                     {
@@ -106,13 +144,40 @@ namespace TimeTable_Generator
                     // Add the assigned shift to the HashSet to track it
                     assignedShifts.Add(date);
 
-                    break; // Shift assigned
+                    // Decrease monthly shift target, unless we're relaxing the constraint
+                    if (!allowRelaxation)
+                    {
+                        monthlyShiftTargets[currentPerson][month]--;
+                    }
+
+                    break;  // Exit once a shift is assigned
                 }
+            }
+
+            // Fallback: If no one fits under the strict constraints, relax the rules and try again
+            if (!shiftAssigned && !allowRelaxation)
+            {
+                // Try again with relaxed constraints (allow people to exceed their monthly targets)
+                return AssignShift(people, date, isWeekend, ref progress, totalShifts, reportProgress, assignedShifts, monthlyShiftTargets, allowRelaxation: true);
             }
 
             if (!shiftAssigned)
             {
-                MessageBox.Show($"No shift assigned for {date.ToShortDateString()}. Reason: {reason}");
+                // If reason is still empty, ensure we have a default reason set
+                if (string.IsNullOrEmpty(reason))
+                {
+                    reason = "No eligible person fits the criteria for this shift.";
+                }
+
+                // Log skipped weekends specifically
+                if (isWeekend)
+                {
+                    MessageBox.Show($"No eligible person found for weekend/public holiday {date.ToShortDateString()}.\nReason: {reason}", "Skipped Weekend", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show($"No eligible person found for {date.ToShortDateString()}.\nReason: {reason}", "Skipped Shift", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             else
             {
@@ -122,21 +187,24 @@ namespace TimeTable_Generator
 
             return shiftAssigned;  // Return whether the shift was assigned
         }
-        private void AssignExtraShifts(List<Person> people, List<DateTime> weekdays, List<DateTime> weekendAndHolidays, HashSet<DateTime> assignedShifts, Action<int> reportProgress, ref int progress, int totalShifts)
+
+        // Assign extra shifts after regular shifts are assigned
+        private void AssignExtraShifts(List<Person> people, List<DateTime> weekdays, List<DateTime> weekendAndHolidays, HashSet<DateTime> assignedShifts, Action<int> reportProgress, ref int progress, int totalShifts, Dictionary<Person, Dictionary<int, int>> monthlyShiftTargets)
         {
             // Calculate the remaining shifts (weekdays and weekends that were not assigned)
             var remainingShifts = weekdays.Concat(weekendAndHolidays)
                                           .Except(assignedShifts)
-                                          .ToList();
+                                          .ToList();  // Create the list of unassigned shifts
 
             // Sort people with ExtraShift flag and assign remaining shifts
-            foreach (DateTime date in remainingShifts.ToList())  // Iterate through a copy of the list
+            foreach (var date in remainingShifts)
             {
                 bool shiftAssigned = false;
+                int month = date.Month;
 
                 // Prioritize people with ExtraShift flag, maintaining balance of total shifts
                 var extraShiftPeople = people
-                    .Where(p => p.ExtraShift)  // Only consider people eligible for extra shifts
+                    .Where(p => p.ExtraShift && monthlyShiftTargets[p][month] > 0)  // Only consider people eligible for extra shifts and who need shifts in this month
                     .OrderBy(p => p.WeekendShifts + p.WeekdayShifts)  // Prioritize people with fewer total shifts (weekday + weekend)
                     .ThenBy(p => Math.Abs(p.WeekendShifts - p.WeekdayShifts))  // Prioritize balancing weekday and weekend shifts
                     .ToList();
@@ -159,8 +227,8 @@ namespace TimeTable_Generator
                         currentPerson.LastAssignedShift = date;
                         shiftAssigned = true;
 
-                        // Remove the date from remainingShifts so it's not assigned again
-                        remainingShifts.Remove(date);
+                        // Decrease the monthly shift target
+                        monthlyShiftTargets[currentPerson][month]--;
                         break; // Exit the loop once a shift is assigned
                     }
                 }
@@ -173,7 +241,11 @@ namespace TimeTable_Generator
             }
         }
 
-
+        // Validation for assigned shifts (not implemented yet)
+        private void ValidateAssignedShifts(List<Person> people, int totalAvailableShifts)
+        {
+            // You can add validation here to ensure all shifts were assigned
+        }
 
         private List<DateTime> GetAllDates(DateTime startDate, DateTime endDate)
         {
