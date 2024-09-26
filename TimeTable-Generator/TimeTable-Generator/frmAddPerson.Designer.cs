@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.rjButton2 = new CustomControls.RJControls.RJButton();
             this.btn_download = new CustomControls.RJControls.RJButton();
             this.btn_reset = new CustomControls.RJControls.RJButton();
@@ -49,7 +50,6 @@
             this.AssignedShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeekdayShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeekendShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -75,6 +75,14 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 597);
             this.panel1.TabIndex = 0;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(481, 77);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(306, 23);
+            this.progressBar1.TabIndex = 19;
+            this.progressBar1.Visible = false;
             // 
             // rjButton2
             // 
@@ -327,14 +335,6 @@
             this.WeekendShifts.Name = "WeekendShifts";
             this.WeekendShifts.ReadOnly = true;
             this.WeekendShifts.Width = 79;
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(481, 77);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(306, 23);
-            this.progressBar1.TabIndex = 19;
-            this.progressBar1.Visible = false;
             // 
             // frmAddPerson
             // 

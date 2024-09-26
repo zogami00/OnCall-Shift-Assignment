@@ -23,7 +23,9 @@ namespace TimeTable_Generator
 
                 // Add headers
                 worksheet.Cells[1, 1].Value = "Date";
-                worksheet.Cells[1, 2].Value = "Name";
+                worksheet.Cells[1, 2].Value = "Day";
+                worksheet.Cells[1, 3].Value = "WeekDayShift";
+                worksheet.Cells[1, 4].Value = "WeekEndShift";
 
                 // Step 1: Flatten the list of people and their shifts into a list of (Date, Name) pairs
                 var shifts = people.SelectMany(person => person.AssignedShifts.Select(shiftDate => new { Date = shiftDate, Name = person.Name }))
@@ -34,8 +36,23 @@ namespace TimeTable_Generator
                 int row = 2;
                 foreach (var shift in shifts)
                 {
+                    
+                    if (shift.Date.DayOfWeek == DayOfWeek.Saturday || shift.Date.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        worksheet.Cells[row, 4].Value = shift.Name;                      // Name of the person
+                    }
+                    else
+                    {
+                        worksheet.Cells[row, 3].Value = shift.Name;                      // Name of the person
+
+                    }
+
+
+
                     worksheet.Cells[row, 1].Value = shift.Date.ToShortDateString();  // Date of the shift
-                    worksheet.Cells[row, 2].Value = shift.Name;                      // Name of the person
+                    worksheet.Cells[row, 2].Value = shift.Date.DayOfWeek.ToString();  // Day of the shift
+                                         // Name of the person
+
                     row++;
                 }
 
