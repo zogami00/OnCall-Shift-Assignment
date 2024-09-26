@@ -36,6 +36,7 @@ namespace TimeTable_Generator
         private void Btn_save_Click_update(object sender, EventArgs e)
         {
             PersonToUpdate.LeaveDates.Clear();
+            PersonToUpdate.PreferredDates.Clear();
             PersonToUpdate.Name = tx_name.Texts;
             // Loop through the items in the ListBox and update the LeaveDates list
             foreach (var item in list_leavedates.Items)
@@ -43,6 +44,13 @@ namespace TimeTable_Generator
                 DateTime leaveDate = DateTime.Parse(item.ToString());
                 PersonToUpdate.LeaveDates.Add(leaveDate.Date);
             }
+            foreach (var item in list_preferred.Items)
+            {
+                DateTime preferredDate = DateTime.Parse(item.ToString());
+                PersonToUpdate.PreferredDates.Add(preferredDate.Date);
+            }
+
+            PersonToUpdate.ExtraShift = checkBox1.Checked;
             this.Close();
         }
 
@@ -51,35 +59,33 @@ namespace TimeTable_Generator
             tx_name.Texts = PersonToUpdate.Name;
 
             list_leavedates.Items.Clear();
+            list_preferred.Items.Clear();
             foreach (var leaveDate in PersonToUpdate.LeaveDates)
             {
                 list_leavedates.Items.Add(leaveDate.Date);
             }
+            foreach (var preferredDate in PersonToUpdate.PreferredDates)
+            {
+                list_preferred.Items.Add(preferredDate.Date);
+            }
+
+            checkBox1.Checked = PersonToUpdate.ExtraShift;
         }
 
-        private void btn_add_leave_Click(object sender, EventArgs e)
-        {
-            frmLeaveDate_helper date_Helper = new frmLeaveDate_helper(list_leavedates);
-            date_Helper.FormClosed += Date_Helper_FormClosed;
-            date_Helper.ShowDialog();
-        }
-
-        private void Date_Helper_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            list_leavedates.Invalidate();
-            list_leavedates.Update();
-        }
-
+      
         private void rjButton1_Click(object sender, EventArgs e)
         {
             if (list_leavedates.SelectedItem != null)
-            {
-                // Remove the selected item
+            {                
                 list_leavedates.Items.Remove(list_leavedates.SelectedItem);
+            }
+            else if(list_preferred.SelectedItem != null)
+            {
+                list_preferred.Items.Remove(list_preferred.SelectedItem);
             }
             else
             {
-                MessageBox.Show("Please select a leave date to delete.");
+                MessageBox.Show("Please select a date in either list to delete.");
             }
         }
 
@@ -98,7 +104,14 @@ namespace TimeTable_Generator
                 {
                     DateTime leaveDate = DateTime.Parse(item.ToString());
                     newPerson.LeaveDates.Add(leaveDate);
-                }                              
+                }        
+                foreach (var item in list_preferred.Items)
+                {
+                    DateTime preferredDates = DateTime.Parse(item.ToString());
+                    newPerson.PreferredDates.Add(preferredDates);
+                }
+
+                newPerson.ExtraShift = checkBox1.Checked;
 
                 // Add the new person to the people list
                 people.Add(newPerson);
@@ -114,7 +127,44 @@ namespace TimeTable_Generator
 
         private void btn_add_Click(object sender, EventArgs e)
         {
-            list_leavedates.Items.Add(tx_date.Texts);
+            if (!string.IsNullOrEmpty(tx_leavedate.Text))
+            {
+                list_leavedates.Items.Add(tx_leavedate.Text);
+                FocusAndSelectTextBeforeFirstSlash(tx_leavedate);
+            }
+        }
+        private void FocusAndSelectTextBeforeFirstSlash(TextBox textBox)
+        {
+            // Focus the TextBox
+            textBox.Focus();
+
+            // Find the index of the first '/'
+            int slashIndex = textBox.Text.IndexOf('/');
+
+            // If a slash is found, select the text before the first one
+            if (slashIndex > 0)
+            {
+                textBox.Select(0, slashIndex);
+            }
+            else
+            {
+                // Optionally handle the case where no slash is found
+                textBox.SelectAll();
+            }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void rjButton2_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tx_preferred.Text))
+            {
+                list_preferred.Items.Add(tx_preferred.Text);
+                FocusAndSelectTextBeforeFirstSlash(tx_preferred);
+            }
         }
     }   
 }

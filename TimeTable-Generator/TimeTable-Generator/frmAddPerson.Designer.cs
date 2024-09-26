@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_holidays = new CustomControls.RJControls.RJButton();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.rjButton2 = new CustomControls.RJControls.RJButton();
             this.btn_download = new CustomControls.RJControls.RJButton();
@@ -50,6 +51,7 @@
             this.AssignedShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeekdayShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeekendShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label_holidays = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -59,6 +61,8 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.AntiqueWhite;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label_holidays);
+            this.panel1.Controls.Add(this.btn_holidays);
             this.panel1.Controls.Add(this.progressBar1);
             this.panel1.Controls.Add(this.rjButton2);
             this.panel1.Controls.Add(this.btn_download);
@@ -75,6 +79,26 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 597);
             this.panel1.TabIndex = 0;
+            // 
+            // btn_holidays
+            // 
+            this.btn_holidays.BackColor = System.Drawing.Color.Lavender;
+            this.btn_holidays.BackgroundColor = System.Drawing.Color.Lavender;
+            this.btn_holidays.BorderColor = System.Drawing.Color.Black;
+            this.btn_holidays.BorderRadius = 0;
+            this.btn_holidays.BorderSize = 1;
+            this.btn_holidays.FlatAppearance.BorderSize = 0;
+            this.btn_holidays.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_holidays.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_holidays.ForeColor = System.Drawing.Color.Black;
+            this.btn_holidays.Location = new System.Drawing.Point(187, 106);
+            this.btn_holidays.Name = "btn_holidays";
+            this.btn_holidays.Size = new System.Drawing.Size(150, 44);
+            this.btn_holidays.TabIndex = 20;
+            this.btn_holidays.Text = "Add Public Holidays";
+            this.btn_holidays.TextColor = System.Drawing.Color.Black;
+            this.btn_holidays.UseVisualStyleBackColor = false;
+            this.btn_holidays.Click += new System.EventHandler(this.btn_holidays_Click);
             // 
             // progressBar1
             // 
@@ -195,12 +219,13 @@
             // 
             // label_total
             // 
-            this.label_total.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_total.Location = new System.Drawing.Point(178, 123);
+            this.label_total.AutoSize = true;
+            this.label_total.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label_total.Location = new System.Drawing.Point(11, 86);
             this.label_total.Name = "label_total";
-            this.label_total.Size = new System.Drawing.Size(156, 63);
+            this.label_total.Size = new System.Drawing.Size(147, 17);
             this.label_total.TabIndex = 11;
-            this.label_total.Text = "Total No of Person : ";
+            this.label_total.Text = "Total No of Person : 0";
             // 
             // btn_continue
             // 
@@ -274,6 +299,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(776, 380);
             this.dataGridView1.TabIndex = 8;
             this.dataGridView1.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDoubleClick);
+            this.dataGridView1.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridView1_DataBindingComplete);
             // 
             // PersonName
             // 
@@ -336,6 +362,16 @@
             this.WeekendShifts.ReadOnly = true;
             this.WeekendShifts.Width = 79;
             // 
+            // label_holidays
+            // 
+            this.label_holidays.AutoSize = true;
+            this.label_holidays.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label_holidays.Location = new System.Drawing.Point(184, 86);
+            this.label_holidays.Name = "label_holidays";
+            this.label_holidays.Size = new System.Drawing.Size(156, 17);
+            this.label_holidays.TabIndex = 21;
+            this.label_holidays.Text = "Total No of Holidays : 0";
+            // 
             // frmAddPerson
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -347,6 +383,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmAddPerson";
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -378,5 +415,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn WeekdayShifts;
         private System.Windows.Forms.DataGridViewTextBoxColumn WeekendShifts;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private CustomControls.RJControls.RJButton btn_holidays;
+        private System.Windows.Forms.Label label_holidays;
     }
 }

@@ -17,6 +17,9 @@ namespace TimeTable_Generator
         DateTime EndDate;
 
         public List<Person> people;
+
+        public List<DateTime> publicHolidays;
+
         private BackgroundWorker backgroundWorker;
         public frmAddPerson(DateTime startDate, DateTime endDate)
         {
@@ -26,10 +29,13 @@ namespace TimeTable_Generator
             EndDate = endDate;
             this.Load += FrmAddPerson_Load;
             people = new List<Person>();
+            publicHolidays = new List<DateTime>();
             dataGridView1.AutoGenerateColumns = false;
+            this.Shown += FrmAddPerson_Shown;
+
 
         }
-        public frmAddPerson(DateTime startDate, DateTime endDate, List<Person> people)
+        public frmAddPerson(DateTime startDate, DateTime endDate, List<Person> people, List<DateTime> publicHolidays)
         {
             InitializeComponent();
             titleBar1.SetParentForm(this);
@@ -37,10 +43,21 @@ namespace TimeTable_Generator
             EndDate = endDate;
             this.Load += FrmAddPerson_Load;
             this.people = people;
+            if(publicHolidays == null)
+            {
+                publicHolidays= new List<DateTime>();
+            }
+            this.publicHolidays = publicHolidays;
             dataGridView1.AutoGenerateColumns = false;
+            this.Shown += FrmAddPerson_Shown;
         }
 
-            private void FrmAddPerson_Load(object sender, EventArgs e)
+        private void FrmAddPerson_Shown(object sender, EventArgs e)
+        {
+            RefreshDGV();
+        }
+
+        private void FrmAddPerson_Load(object sender, EventArgs e)
         {
             // Initialize BackgroundWorker
             backgroundWorker = new BackgroundWorker
@@ -81,7 +98,7 @@ namespace TimeTable_Generator
 
             // Call the algorithm and pass a lambda function for progress reporting
             
-            shiftsAlgorithm.AssignShifts(people, StartDate, EndDate, progress =>
+            shiftsAlgorithm.AssignShifts(people, StartDate, EndDate, publicHolidays, progress =>
             {
                 backgroundWorker.ReportProgress(progress); // Report progress to UI
             });
@@ -117,8 +134,15 @@ namespace TimeTable_Generator
             dataGridView1.DataSource = null;
             dataGridView1.DataSource = people;
             int rowcount = dataGridView1.Rows.Count;
+            int holidayscount = 0;
+            if (publicHolidays != null)
+            {
+                holidayscount = publicHolidays.Count;
+            }
+            
 
             label_total.Text = $"Total No of Person : {rowcount.ToString()}";
+            label_holidays.Text = $"Total No of Holidays : {holidayscount.ToString()}";
         }
         private void AddPersonDetails_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -229,7 +253,20 @@ namespace TimeTable_Generator
         {
             DataTransferClass dataTransfer = new DataTransferClass();
 
-            dataTransfer.ExportDataToFile(people, StartDate, EndDate);
+            dataTransfer.ExportDataToFile(people, StartDate, EndDate, publicHolidays);
+        }
+
+        private void btn_holidays_Click(object sender, EventArgs e)
+        {
+            frmPublicHolidays holidays = new frmPublicHolidays(publicHolidays);
+            holidays.FormClosed += AddPersonDetails_FormClosed;
+            holidays.ShowDialog();
+                
+        }
+
+        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            
         }
     }
 }

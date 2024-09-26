@@ -17,9 +17,10 @@ namespace TimeTable_Generator
             public List<Person> People { get; set; }
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
+            public List<DateTime> PublicHolidays { get; set; }
         }
 
-        public void ExportDataToFile(List<Person> people, DateTime date1, DateTime date2)
+        public void ExportDataToFile(List<Person> people, DateTime date1, DateTime date2, List<DateTime> publicHolidays)
         {
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
@@ -36,7 +37,8 @@ namespace TimeTable_Generator
                     {
                         People = people,
                         StartDate = date1,
-                        EndDate = date2
+                        EndDate = date2,
+                        PublicHolidays = publicHolidays
                     };
 
                     // Serialize the data to JSON

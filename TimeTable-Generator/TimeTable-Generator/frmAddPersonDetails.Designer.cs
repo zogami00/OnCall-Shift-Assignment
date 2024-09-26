@@ -29,11 +29,14 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.tx_preferred = new System.Windows.Forms.TextBox();
+            this.rjButton2 = new CustomControls.RJControls.RJButton();
+            this.list_preferred = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tx_leavedate = new System.Windows.Forms.TextBox();
             this.btn_add = new CustomControls.RJControls.RJButton();
-            this.tx_date = new CustomControls.RJControls.RJTextBox();
             this.rjButton1 = new CustomControls.RJControls.RJButton();
             this.btn_save = new CustomControls.RJControls.RJButton();
-            this.btn_add_leave = new CustomControls.RJControls.RJButton();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.list_leavedates = new System.Windows.Forms.ListBox();
@@ -41,6 +44,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.titleBar1 = new Button_Control.TitleBar();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -49,11 +53,15 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.AntiqueWhite;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.checkBox1);
+            this.panel1.Controls.Add(this.tx_preferred);
+            this.panel1.Controls.Add(this.rjButton2);
+            this.panel1.Controls.Add(this.list_preferred);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.tx_leavedate);
             this.panel1.Controls.Add(this.btn_add);
-            this.panel1.Controls.Add(this.tx_date);
             this.panel1.Controls.Add(this.rjButton1);
             this.panel1.Controls.Add(this.btn_save);
-            this.panel1.Controls.Add(this.btn_add_leave);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.list_leavedates);
@@ -61,8 +69,65 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(624, 298);
+            this.panel1.Size = new System.Drawing.Size(631, 453);
             this.panel1.TabIndex = 0;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // tx_preferred
+            // 
+            this.tx_preferred.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.tx_preferred.Location = new System.Drawing.Point(29, 311);
+            this.tx_preferred.Name = "tx_preferred";
+            this.tx_preferred.Size = new System.Drawing.Size(150, 26);
+            this.tx_preferred.TabIndex = 26;
+            // 
+            // rjButton2
+            // 
+            this.rjButton2.BackColor = System.Drawing.Color.Snow;
+            this.rjButton2.BackgroundColor = System.Drawing.Color.Snow;
+            this.rjButton2.BorderColor = System.Drawing.Color.Black;
+            this.rjButton2.BorderRadius = 0;
+            this.rjButton2.BorderSize = 1;
+            this.rjButton2.FlatAppearance.BorderSize = 0;
+            this.rjButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rjButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rjButton2.ForeColor = System.Drawing.Color.Black;
+            this.rjButton2.Location = new System.Drawing.Point(29, 344);
+            this.rjButton2.Name = "rjButton2";
+            this.rjButton2.Size = new System.Drawing.Size(150, 25);
+            this.rjButton2.TabIndex = 25;
+            this.rjButton2.Text = "Add Preferred Date";
+            this.rjButton2.TextColor = System.Drawing.Color.Black;
+            this.rjButton2.UseVisualStyleBackColor = false;
+            this.rjButton2.Click += new System.EventHandler(this.rjButton2_Click);
+            // 
+            // list_preferred
+            // 
+            this.list_preferred.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.list_preferred.FormattingEnabled = true;
+            this.list_preferred.ItemHeight = 20;
+            this.list_preferred.Location = new System.Drawing.Point(211, 265);
+            this.list_preferred.Name = "list_preferred";
+            this.list_preferred.Size = new System.Drawing.Size(250, 124);
+            this.list_preferred.TabIndex = 24;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(24, 265);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(175, 25);
+            this.label3.TabIndex = 23;
+            this.label3.Text = "Preferred Dates :";
+            // 
+            // tx_leavedate
+            // 
+            this.tx_leavedate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.tx_leavedate.Location = new System.Drawing.Point(29, 150);
+            this.tx_leavedate.Name = "tx_leavedate";
+            this.tx_leavedate.Size = new System.Drawing.Size(150, 26);
+            this.tx_leavedate.TabIndex = 22;
             // 
             // btn_add
             // 
@@ -75,40 +140,14 @@
             this.btn_add.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_add.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_add.ForeColor = System.Drawing.Color.Black;
-            this.btn_add.Location = new System.Drawing.Point(29, 189);
+            this.btn_add.Location = new System.Drawing.Point(29, 183);
             this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(141, 25);
+            this.btn_add.Size = new System.Drawing.Size(150, 25);
             this.btn_add.TabIndex = 18;
             this.btn_add.Text = "Add Leave Date";
             this.btn_add.TextColor = System.Drawing.Color.Black;
             this.btn_add.UseVisualStyleBackColor = false;
             this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
-            // 
-            // tx_date
-            // 
-            this.tx_date.BackColor = System.Drawing.SystemColors.Window;
-            this.tx_date.BorderColor = System.Drawing.Color.MidnightBlue;
-            this.tx_date.BorderFocusColor = System.Drawing.Color.HotPink;
-            this.tx_date.BorderRadius = 0;
-            this.tx_date.BorderSize = 2;
-            this.tx_date.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tx_date.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.tx_date.Location = new System.Drawing.Point(29, 147);
-            this.tx_date.Margin = new System.Windows.Forms.Padding(4);
-            this.tx_date.Multiline = false;
-            this.tx_date.Name = "tx_date";
-            this.tx_date.Padding = new System.Windows.Forms.Padding(10, 7, 10, 7);
-            this.tx_date.PasswordChar = false;
-            this.tx_date.PlaceholderColor = System.Drawing.Color.DarkGray;
-            this.tx_date.PlaceholderText = "";
-            this.tx_date.ReadOnly = false;
-            this.tx_date.Size = new System.Drawing.Size(140, 35);
-            this.tx_date.TabIndex = 17;
-            this.tx_date.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.tx_date.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.tx_date.Texts = "";
-            this.tx_date.UnderlinedStyle = false;
-            this.tx_date.VScroll = true;
             // 
             // rjButton1
             // 
@@ -121,9 +160,9 @@
             this.rjButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.rjButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rjButton1.ForeColor = System.Drawing.Color.Black;
-            this.rjButton1.Location = new System.Drawing.Point(494, 167);
+            this.rjButton1.Location = new System.Drawing.Point(477, 206);
             this.rjButton1.Name = "rjButton1";
-            this.rjButton1.Size = new System.Drawing.Size(98, 41);
+            this.rjButton1.Size = new System.Drawing.Size(141, 41);
             this.rjButton1.TabIndex = 16;
             this.rjButton1.Text = "Delete Date";
             this.rjButton1.TextColor = System.Drawing.Color.Black;
@@ -141,33 +180,13 @@
             this.btn_save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_save.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_save.ForeColor = System.Drawing.Color.Black;
-            this.btn_save.Location = new System.Drawing.Point(494, 214);
+            this.btn_save.Location = new System.Drawing.Point(477, 253);
             this.btn_save.Name = "btn_save";
-            this.btn_save.Size = new System.Drawing.Size(98, 52);
+            this.btn_save.Size = new System.Drawing.Size(141, 52);
             this.btn_save.TabIndex = 15;
             this.btn_save.Text = "Save";
             this.btn_save.TextColor = System.Drawing.Color.Black;
             this.btn_save.UseVisualStyleBackColor = false;
-            // 
-            // btn_add_leave
-            // 
-            this.btn_add_leave.BackColor = System.Drawing.Color.LightBlue;
-            this.btn_add_leave.BackgroundColor = System.Drawing.Color.LightBlue;
-            this.btn_add_leave.BorderColor = System.Drawing.Color.Black;
-            this.btn_add_leave.BorderRadius = 0;
-            this.btn_add_leave.BorderSize = 1;
-            this.btn_add_leave.FlatAppearance.BorderSize = 0;
-            this.btn_add_leave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_add_leave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_add_leave.ForeColor = System.Drawing.Color.Black;
-            this.btn_add_leave.Location = new System.Drawing.Point(494, 118);
-            this.btn_add_leave.Name = "btn_add_leave";
-            this.btn_add_leave.Size = new System.Drawing.Size(98, 43);
-            this.btn_add_leave.TabIndex = 14;
-            this.btn_add_leave.Text = "Add Leave Date";
-            this.btn_add_leave.TextColor = System.Drawing.Color.Black;
-            this.btn_add_leave.UseVisualStyleBackColor = false;
-            this.btn_add_leave.Click += new System.EventHandler(this.btn_add_leave_Click);
             // 
             // label2
             // 
@@ -196,7 +215,7 @@
             this.list_leavedates.ItemHeight = 20;
             this.list_leavedates.Location = new System.Drawing.Point(211, 109);
             this.list_leavedates.Name = "list_leavedates";
-            this.list_leavedates.Size = new System.Drawing.Size(250, 164);
+            this.list_leavedates.Size = new System.Drawing.Size(250, 124);
             this.list_leavedates.TabIndex = 1;
             // 
             // tx_name
@@ -233,7 +252,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(624, 30);
+            this.panel2.Size = new System.Drawing.Size(631, 30);
             this.panel2.TabIndex = 11;
             // 
             // label4
@@ -254,17 +273,28 @@
             this.titleBar1.CloseTitle = "Exit";
             this.titleBar1.Dock = System.Windows.Forms.DockStyle.Right;
             this.titleBar1.EnableDialog = false;
-            this.titleBar1.Location = new System.Drawing.Point(520, 0);
+            this.titleBar1.Location = new System.Drawing.Point(527, 0);
             this.titleBar1.Name = "titleBar1";
             this.titleBar1.ShowMinimizeButton = false;
             this.titleBar1.Size = new System.Drawing.Size(104, 30);
             this.titleBar1.TabIndex = 0;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.Location = new System.Drawing.Point(211, 404);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(154, 24);
+            this.checkBox1.TabIndex = 27;
+            this.checkBox1.Text = "Assign Extra Shift";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // frmAddPersonDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 298);
+            this.ClientSize = new System.Drawing.Size(631, 453);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -286,13 +316,17 @@
         private System.Windows.Forms.ListBox list_leavedates;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private CustomControls.RJControls.RJButton btn_add_leave;
         private CustomControls.RJControls.RJButton btn_save;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label4;
         private Button_Control.TitleBar titleBar1;
         private CustomControls.RJControls.RJButton rjButton1;
         private CustomControls.RJControls.RJButton btn_add;
-        private CustomControls.RJControls.RJTextBox tx_date;
+        private System.Windows.Forms.TextBox tx_leavedate;
+        private System.Windows.Forms.ListBox list_preferred;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox tx_preferred;
+        private CustomControls.RJControls.RJButton rjButton2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

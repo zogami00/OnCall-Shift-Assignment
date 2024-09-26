@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Office2013.Word;
 using DocumentFormat.OpenXml.Wordprocessing;
+using MongoDB.Bson.IO;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace TimeTable_Generator
     public partial class MainPage : Form
     {
         public List<Person> people;
+        public List<DateTime> publicHolidays;
         bool Imported = false;  
         public MainPage()
         {
@@ -41,7 +43,7 @@ namespace TimeTable_Generator
 
                 if (result == DialogResult.OK)
                 {
-                    frmAddPerson addPerson = new frmAddPerson(startdate, enddate, people);
+                    frmAddPerson addPerson = new frmAddPerson(startdate, enddate, people, publicHolidays);
                     addPerson.ShowDialog();
                 }
 
@@ -70,8 +72,8 @@ namespace TimeTable_Generator
 
                 date_start.Value = importedData.StartDate;
                 date_end.Value = importedData.EndDate;
-
-               
+                publicHolidays = importedData.PublicHolidays;
+                               
 
                 date_start.Invalidate();
                 date_end.Invalidate();
@@ -97,7 +99,7 @@ namespace TimeTable_Generator
                     string jsonData = File.ReadAllText(filePath);
 
                     // Deserialize the JSON back into the ExportData object
-                    ExportData importedData = JsonConvert.DeserializeObject<ExportData>(jsonData);
+                    ExportData importedData = Newtonsoft.Json.JsonConvert.DeserializeObject<ExportData>(jsonData);
 
                     MessageBox.Show("Data imported successfully from " + filePath);
                     return importedData;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,7 +13,7 @@ namespace TimeTable_Generator
 {
     public class ShiftsAlgorithm
     {
-        public void AssignShifts(List<Person> people, DateTime startDate, DateTime endDate, Action<int> reportProgress)
+        public void AssignShifts(List<Person> people, DateTime startDate, DateTime endDate, List<DateTime> publicHolidays, Action<int> reportProgress)
         {
             // Get all dates in the range
             List<DateTime> allDates = GetAllDates(startDate, endDate);
@@ -21,108 +22,154 @@ namespace TimeTable_Generator
             List<DateTime> weekends = allDates.Where(date => date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday).ToList();
             List<DateTime> weekdays = allDates.Except(weekends).ToList();
 
-            // Total number of shifts is the sum of weekends and weekdays
-            int totalShifts = weekends.Count + weekdays.Count;
+            // Exclude public holidays from the list of weekdays
+            var weekdaysExcludingHolidays = weekdays.Except(publicHolidays).ToList();
+
+            // Combine weekends and public holidays into one list for weekend shifts
+            var weekendAndHolidays = weekends.Union(publicHolidays).ToList();
+
+            // Initialize a HashSet to track assigned shifts
+            HashSet<DateTime> assignedShifts = new HashSet<DateTime>();
+
+            // Calculate total shifts (weekdays + weekends, but not public holidays separately)
+            int totalShifts = weekdaysExcludingHolidays.Count + weekendAndHolidays.Count;
+
+            // Automatically calculate the ideal number of shifts per person
+            int totalPeople = people.Count;
+            int idealShiftsPerPerson = totalShifts / totalPeople;  // Integer division gives the base number of shifts each person should get
+            int remainingShifts = totalShifts % totalPeople;       // Calculate any leftover shifts
+
             int progress = 0;
 
-            // Assign weekday shifts first
-            AssignWeekdayShifts(people, weekdays, reportProgress, ref progress, totalShifts);
+            // First pass: Assign regular shifts (both weekdays and weekend/public holidays)
+            AssignRegularShifts(people, weekdaysExcludingHolidays, weekendAndHolidays, assignedShifts, reportProgress, ref progress, totalShifts, idealShiftsPerPerson);
 
-            // Now assign weekend shifts
-            AssignWeekendShifts(people, weekends, reportProgress, ref progress, totalShifts);
+            // Second pass: Assign remaining shifts to people with ExtraShift flag
+            AssignExtraShifts(people, weekdaysExcludingHolidays, weekendAndHolidays, assignedShifts, reportProgress, ref progress, totalShifts);
         }
 
-        private void AssignWeekendShifts(List<Person> people, List<DateTime> weekends, Action<int> reportProgress, ref int progress, int totalShifts)
+
+        private void AssignRegularShifts(List<Person> people, List<DateTime> weekdays, List<DateTime> weekendAndHolidays, HashSet<DateTime> assignedShifts, Action<int> reportProgress, ref int progress, int totalShifts, int idealShiftsPerPerson)
         {
-            foreach (DateTime weekend in weekends)
+            // Assign regular weekday shifts
+            foreach (DateTime weekday in weekdays)
             {
-                bool shiftAssigned = false;
-                string reason = ""; // Store the reason for why a shift cannot be assigned
+                AssignShift(people, weekday, isWeekend: false, ref progress, totalShifts, reportProgress, idealShiftsPerPerson, assignedShifts);
+            }
 
-                // Sort people by their weekday-weekend shift balance (prioritize those with fewer weekend shifts)
-                var sortedPeople = people.OrderBy(p => p.WeekendShifts - p.WeekdayShifts).ThenBy(p => p.WeekendShifts + p.WeekdayShifts).ToList();
-
-                foreach (var currentPerson in sortedPeople)
-                {
-                    // Check if this person can be assigned the shift
-                    if (currentPerson.LeaveDates.Contains(weekend.Date))
-                    {
-                        reason = $"{currentPerson.Name} is on leave on {weekend.ToShortDateString()}.";
-                    }
-                    else if (currentPerson.LastAssignedShift.HasValue && (weekend - currentPerson.LastAssignedShift.Value).Days == 1)
-                    {
-                        reason = $"{currentPerson.Name} has a shift on {currentPerson.LastAssignedShift.Value.ToShortDateString()} (consecutive day).";
-                    }
-                    else
-                    {
-                        // If both checks pass, assign the weekend shift
-                        currentPerson.AssignedShifts.Add(weekend.Date);
-                        currentPerson.WeekendShifts++;
-                        currentPerson.LastAssignedShift = weekend.Date;
-                        shiftAssigned = true; // Shift assigned successfully
-                        reason = ""; // Clear the reason since the shift is assigned
-                        break; // Shift assigned, break the loop
-                    }
-                }
-
-                if (!shiftAssigned)
-                {
-                    // Handle case when no one can take this shift, display reason
-                    MessageBox.Show($"No one available for shift on {weekend.ToShortDateString()}.\nReason: {reason}\nThis date will be skipped.");
-                    continue;
-                }
-
-                progress++;
-
-                // Report progress after each shift is processed
-                reportProgress((progress * 100) / totalShifts);
+            // Assign regular weekend/public holiday shifts
+            foreach (DateTime weekend in weekendAndHolidays)
+            {
+                AssignShift(people, weekend, isWeekend: true, ref progress, totalShifts, reportProgress, idealShiftsPerPerson, assignedShifts);
             }
         }
 
-        private void AssignWeekdayShifts(List<Person> people, List<DateTime> weekdays, Action<int> reportProgress, ref int progress, int totalShifts)
+
+        private bool AssignShift(List<Person> people, DateTime date, bool isWeekend, ref int progress, int totalShifts, Action<int> reportProgress, int idealShiftsPerPerson, HashSet<DateTime> assignedShifts)
         {
-            foreach (DateTime weekday in weekdays)
+            bool shiftAssigned = false;
+            string reason = "";  // Track the reason for skipping
+
+            // Sort people by balance of shifts (weekdays and weekends) and total number of assigned shifts
+            var sortedPeople = people
+                .Where(p => p.WeekdayShifts + p.WeekendShifts < idealShiftsPerPerson)  // Only assign to those who haven't reached the ideal number of shifts yet
+                .OrderBy(p => Math.Abs(p.WeekendShifts - p.WeekdayShifts))  // Prioritize people with unbalanced shifts between weekday and weekend
+                .ThenBy(p => p.WeekendShifts + p.WeekdayShifts)    // Prioritize people with fewer total shifts
+                .ToList();
+
+            foreach (var currentPerson in sortedPeople)
             {
-                bool shiftAssigned = false;
-                string reason = ""; // Store the reason for why a shift cannot be assigned
-
-                // Sort people by their weekend-weekday shift balance (prioritize those with fewer weekday shifts)
-                var sortedPeople = people.OrderBy(p => p.WeekdayShifts - p.WeekendShifts).ThenBy(p => p.WeekendShifts + p.WeekdayShifts).ToList();
-
-                foreach (var currentPerson in sortedPeople)
+                // Check leave dates and consecutive day constraints
+                if (currentPerson.LeaveDates.Contains(date.Date))
                 {
-                    // Check if this person can be assigned the shift
-                    if (currentPerson.LeaveDates.Contains(weekday.Date))
+                    reason = $"{currentPerson.Name} is on leave for {date.ToShortDateString()}";
+                }
+                else if (currentPerson.LastAssignedShift.HasValue && (date - currentPerson.LastAssignedShift.Value).Days == 1)
+                {
+                    reason = $"{currentPerson.Name} has a consecutive shift issue for {date.ToShortDateString()}";
+                }
+                else
+                {
+                    // Assign the shift (weekend or weekday)
+                    currentPerson.AssignedShifts.Add(date);
+                    if (isWeekend)
                     {
-                        reason = $"{currentPerson.Name} is on leave on {weekday.ToShortDateString()}.";
-                    }
-                    else if (currentPerson.LastAssignedShift.HasValue && (weekday - currentPerson.LastAssignedShift.Value).Days == 1)
-                    {
-                        reason = $"{currentPerson.Name} has a shift on {currentPerson.LastAssignedShift.Value.ToShortDateString()} (consecutive day).";
+                        currentPerson.WeekendShifts++;
                     }
                     else
                     {
-                        // If both checks pass, assign the weekday shift
-                        currentPerson.AssignedShifts.Add(weekday.Date);
                         currentPerson.WeekdayShifts++;
-                        currentPerson.LastAssignedShift = weekday.Date;
-                        shiftAssigned = true; // Shift assigned successfully
-                        reason = ""; // Clear the reason since the shift is assigned
-                        break; // Shift assigned, break the loop
+                    }
+                    currentPerson.LastAssignedShift = date;
+                    shiftAssigned = true;
+
+                    // Add the assigned shift to the HashSet to track it
+                    assignedShifts.Add(date);
+
+                    break; // Shift assigned
+                }
+            }
+
+            if (!shiftAssigned)
+            {
+                MessageBox.Show($"No shift assigned for {date.ToShortDateString()}. Reason: {reason}");
+            }
+            else
+            {
+                progress++;
+                reportProgress((progress * 100) / totalShifts);
+            }
+
+            return shiftAssigned;  // Return whether the shift was assigned
+        }
+        private void AssignExtraShifts(List<Person> people, List<DateTime> weekdays, List<DateTime> weekendAndHolidays, HashSet<DateTime> assignedShifts, Action<int> reportProgress, ref int progress, int totalShifts)
+        {
+            // Calculate the remaining shifts (weekdays and weekends that were not assigned)
+            var remainingShifts = weekdays.Concat(weekendAndHolidays)
+                                          .Except(assignedShifts)
+                                          .ToList();
+
+            // Sort people with ExtraShift flag and assign remaining shifts
+            foreach (DateTime date in remainingShifts.ToList())  // Iterate through a copy of the list
+            {
+                bool shiftAssigned = false;
+
+                // Prioritize people with ExtraShift flag, maintaining balance of total shifts
+                var extraShiftPeople = people
+                    .Where(p => p.ExtraShift)  // Only consider people eligible for extra shifts
+                    .OrderBy(p => p.WeekendShifts + p.WeekdayShifts)  // Prioritize people with fewer total shifts (weekday + weekend)
+                    .ThenBy(p => Math.Abs(p.WeekendShifts - p.WeekdayShifts))  // Prioritize balancing weekday and weekend shifts
+                    .ToList();
+
+                foreach (var currentPerson in extraShiftPeople)
+                {
+                    if (!currentPerson.LeaveDates.Contains(date.Date) &&
+                        (!currentPerson.LastAssignedShift.HasValue || (date - currentPerson.LastAssignedShift.Value).Days > 1))
+                    {
+                        // Assign the shift (weekend or weekday based on the day of the week)
+                        currentPerson.AssignedShifts.Add(date);
+                        if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday || weekendAndHolidays.Contains(date))
+                        {
+                            currentPerson.WeekendShifts++;
+                        }
+                        else
+                        {
+                            currentPerson.WeekdayShifts++;
+                        }
+                        currentPerson.LastAssignedShift = date;
+                        shiftAssigned = true;
+
+                        // Remove the date from remainingShifts so it's not assigned again
+                        remainingShifts.Remove(date);
+                        break; // Exit the loop once a shift is assigned
                     }
                 }
 
-                if (!shiftAssigned)
+                if (shiftAssigned)
                 {
-                    // Handle case when no one can take this shift, display reason
-                    MessageBox.Show($"No one available for shift on {weekday.ToShortDateString()}.\nReason: {reason}\nThis date will be skipped.");
-                    continue;
+                    progress++;
+                    reportProgress(Math.Min((progress * 100) / totalShifts, 100));
                 }
-
-                progress++;
-
-                // Report progress after each shift is processed
-                reportProgress((progress * 100) / totalShifts);
             }
         }
 

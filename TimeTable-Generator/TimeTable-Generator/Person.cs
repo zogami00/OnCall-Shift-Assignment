@@ -11,8 +11,10 @@ namespace TimeTable_Generator
         public string Name { get; set; }
         public List<DateTime> LeaveDates { get; set; }
         public List<DateTime> AssignedShifts { get; set; }
+        public List<DateTime> PreferredDates { get; set; }
         public int WeekdayShifts { get; set; }
         public int WeekendShifts { get; set; }
+        public bool ExtraShift {  get; set; } 
         public DateTime? LastAssignedShift { get; set; } // Track last assigned shift
 
 
@@ -21,8 +23,10 @@ namespace TimeTable_Generator
             Name = name;
             LeaveDates = new List<DateTime>();
             AssignedShifts = new List<DateTime>();
+            PreferredDates = new List<DateTime>();
             WeekdayShifts = 0;
             WeekendShifts = 0;
+            ExtraShift = false;
         }
 
         public string LeaveDatesString
