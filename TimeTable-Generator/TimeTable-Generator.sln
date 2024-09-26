@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTable-Generator", "Time
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControls", "..\Button_Control\CustomControls.csproj", "{B5BF60A5-76F1-4682-B17F-95EEBA8A30C2}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TimeTableGenerator", "TimeTableGenerator\TimeTableGenerator.vdproj", "{033B599F-5B8F-4678-8138-5A9AA4F2A1AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,8 @@ Global
 		{B5BF60A5-76F1-4682-B17F-95EEBA8A30C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5BF60A5-76F1-4682-B17F-95EEBA8A30C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5BF60A5-76F1-4682-B17F-95EEBA8A30C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{033B599F-5B8F-4678-8138-5A9AA4F2A1AC}.Debug|Any CPU.ActiveCfg = Debug
+		{033B599F-5B8F-4678-8138-5A9AA4F2A1AC}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

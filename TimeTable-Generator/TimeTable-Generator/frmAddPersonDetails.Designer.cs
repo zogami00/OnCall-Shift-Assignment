@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tx_preferred = new System.Windows.Forms.TextBox();
             this.rjButton2 = new CustomControls.RJControls.RJButton();
             this.list_preferred = new System.Windows.Forms.ListBox();
@@ -44,7 +45,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.titleBar1 = new Button_Control.TitleBar();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -72,6 +72,17 @@
             this.panel1.Size = new System.Drawing.Size(631, 453);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.Location = new System.Drawing.Point(211, 404);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(154, 24);
+            this.checkBox1.TabIndex = 27;
+            this.checkBox1.Text = "Assign Extra Shift";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // tx_preferred
             // 
@@ -278,17 +289,6 @@
             this.titleBar1.ShowMinimizeButton = false;
             this.titleBar1.Size = new System.Drawing.Size(104, 30);
             this.titleBar1.TabIndex = 0;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.Location = new System.Drawing.Point(211, 404);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(154, 24);
-            this.checkBox1.TabIndex = 27;
-            this.checkBox1.Text = "Assign Extra Shift";
-            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // frmAddPersonDetails
             // 
