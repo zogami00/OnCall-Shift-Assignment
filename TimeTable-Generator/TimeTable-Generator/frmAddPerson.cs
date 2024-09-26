@@ -254,7 +254,7 @@ namespace TimeTable_Generator
                     string filePath = saveFileDialog.FileName;
 
                     // Generate the Excel file
-                    generateClass.GenerateTimetableExcel(people, filePath);
+                    generateClass.GenerateTimetableExcel(people, filePath, StartDate,EndDate, publicHolidays);
 
                     MessageBox.Show("Timetable has been exported to Excel!");
                 }
