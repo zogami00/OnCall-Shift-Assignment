@@ -99,14 +99,16 @@ namespace TimeTable_Generator
             string reason = "";  // Track the reason for skipping
             int month = date.Month;
 
-            // Prioritize people differently for weekday vs. weekend shifts
-            var sortedPeople = isWeekend
-                ? people.OrderBy(p => p.WeekendShifts)  // Prioritize people with fewer weekend shifts
-                        .ThenBy(p => p.WeekdayShifts)   // Break ties by giving priority to people with fewer total shifts
-                        .ToList()
-                : people.OrderBy(p => p.WeekdayShifts)  // Prioritize people with fewer weekday shifts
-                        .ThenBy(p => p.WeekendShifts)   // Break ties by giving priority to people with fewer total shifts
-                        .ToList();
+            // Separate people with preferred dates and others
+            var preferredPeople = people.Where(p => p.PreferredDates.Contains(date.Date)).ToList();
+            var nonPreferredPeople = people.Where(p => !p.PreferredDates.Contains(date.Date)).ToList();
+
+            // If there are preferred people for this date, prioritize them
+            var sortedPeople = preferredPeople.Any()
+                ? preferredPeople.OrderBy(p => p.WeekendShifts + p.WeekdayShifts).ToList()
+                : isWeekend
+                    ? nonPreferredPeople.OrderBy(p => p.WeekendShifts).ThenBy(p => p.WeekdayShifts).ToList()
+                    : nonPreferredPeople.OrderBy(p => p.WeekdayShifts).ThenBy(p => p.WeekendShifts).ToList();
 
             foreach (var currentPerson in sortedPeople)
             {
