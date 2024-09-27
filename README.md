@@ -12,8 +12,6 @@ A powerful tool for creating a balanced on-call schedule, specifically designed 
 
 ## Installation
 
-## Installation
-
 ### Prerequisites
 
 - [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48)
