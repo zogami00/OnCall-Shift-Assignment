@@ -15,8 +15,8 @@ namespace TimeTable_Generator
 {
     public partial class frmAddPerson : Form
     {
-        DateTime StartDate;
-        DateTime EndDate;
+        public DateTime StartDate;
+        public DateTime EndDate;
 
         public List<Person> people;
 
@@ -73,7 +73,6 @@ namespace TimeTable_Generator
             backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
             backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
 
-            label_date.Text = $"Creating Timetable From {StartDate.ToString("d")} to {EndDate.ToString("d")}";
             dataGridView1.Columns["PersonName"].DataPropertyName = "Name";
             dataGridView1.Columns["AssignedShiftsString"].DataPropertyName = "AssignedShiftsString";
             dataGridView1.Columns["LeaveDatesString"].DataPropertyName = "LeaveDatesString";
@@ -127,12 +126,14 @@ namespace TimeTable_Generator
         private void btn_continue_Click(object sender, EventArgs e)
         {
             frmAddPersonDetails addPersonDetails = new frmAddPersonDetails(people);
-            addPersonDetails.FormClosed += AddPersonDetails_FormClosed;
+            addPersonDetails.FormClosed += Refresh_DGV_On_FormClosed;
             addPersonDetails.ShowDialog();
         }
 
         private void RefreshDGV()
         {
+            label_date.Text = $"Creating Timetable From {StartDate.ToString("d")} to {EndDate.ToString("d")}";
+
             dataGridView1.DataSource = null;
             dataGridView1.DataSource = people;
             int rowcount = dataGridView1.Rows.Count;
@@ -169,10 +170,9 @@ namespace TimeTable_Generator
             }
             return allDates;
         }
-        private void AddPersonDetails_FormClosed(object sender, FormClosedEventArgs e)
+        private void Refresh_DGV_On_FormClosed(object sender, FormClosedEventArgs e)
         {
-            RefreshDGV();
-            
+            RefreshDGV();            
         }
 
         private void rjButton1_Click(object sender, EventArgs e)
@@ -229,7 +229,7 @@ namespace TimeTable_Generator
                     if (personToUpdate != null)
                     {
                         frmAddPersonDetails personDetails = new frmAddPersonDetails(people,personToUpdate);
-                        personDetails.FormClosed += AddPersonDetails_FormClosed;
+                        personDetails.FormClosed += Refresh_DGV_On_FormClosed;
                         personDetails.ShowDialog();
                     }
 
@@ -284,7 +284,7 @@ namespace TimeTable_Generator
         private void btn_holidays_Click(object sender, EventArgs e)
         {
             frmPublicHolidays holidays = new frmPublicHolidays(publicHolidays);
-            holidays.FormClosed += AddPersonDetails_FormClosed;
+            holidays.FormClosed += Refresh_DGV_On_FormClosed;
             holidays.ShowDialog();
                 
         }
@@ -293,5 +293,18 @@ namespace TimeTable_Generator
         {
             
         }
+
+        private void btn_date_Click(object sender, EventArgs e)
+        {
+            frmChangeDates changeDates = new frmChangeDates(StartDate, EndDate);
+            changeDates.FormClosed += (s, args) =>
+            {
+                StartDate = changeDates.StartDate;
+                EndDate = changeDates.EndDate;
+                Refresh_DGV_On_FormClosed(s, args); // Call your refresh method here
+            };
+            changeDates.ShowDialog();
+        }
+
     }
 }

@@ -180,6 +180,12 @@
     <Compile Include="frmAddPerson.Designer.cs">
       <DependentUpon>frmAddPerson.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmChangeDates.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmChangeDates.Designer.cs">
+      <DependentUpon>frmChangeDates.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPublicHolidays.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -202,6 +208,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmAddPersonDetails.resx">
       <DependentUpon>frmAddPersonDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmChangeDates.resx">
+      <DependentUpon>frmChangeDates.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPublicHolidays.resx">
       <DependentUpon>frmPublicHolidays.cs</DependentUpon>

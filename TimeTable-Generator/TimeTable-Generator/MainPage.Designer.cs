@@ -31,6 +31,9 @@
             this.date_end = new Button_Control.DTP.RJDatePicker();
             this.date_start = new Button_Control.DTP.RJDatePicker();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_reset = new CustomControls.RJControls.RJButton();
+            this.label_import = new System.Windows.Forms.Label();
+            this.btn_import = new CustomControls.RJControls.RJButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.titleBar1 = new Button_Control.TitleBar();
@@ -38,8 +41,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btn_import = new CustomControls.RJControls.RJButton();
-            this.label_import = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -74,6 +75,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.AntiqueWhite;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.btn_reset);
             this.panel1.Controls.Add(this.label_import);
             this.panel1.Controls.Add(this.btn_import);
             this.panel1.Controls.Add(this.panel2);
@@ -88,6 +90,57 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(699, 235);
             this.panel1.TabIndex = 2;
+            // 
+            // btn_reset
+            // 
+            this.btn_reset.BackColor = System.Drawing.Color.Plum;
+            this.btn_reset.BackgroundColor = System.Drawing.Color.Plum;
+            this.btn_reset.BorderColor = System.Drawing.Color.Black;
+            this.btn_reset.BorderRadius = 0;
+            this.btn_reset.BorderSize = 1;
+            this.btn_reset.FlatAppearance.BorderSize = 0;
+            this.btn_reset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_reset.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_reset.ForeColor = System.Drawing.Color.Black;
+            this.btn_reset.Location = new System.Drawing.Point(92, 175);
+            this.btn_reset.Name = "btn_reset";
+            this.btn_reset.Size = new System.Drawing.Size(91, 40);
+            this.btn_reset.TabIndex = 9;
+            this.btn_reset.Text = "Reset";
+            this.btn_reset.TextColor = System.Drawing.Color.Black;
+            this.btn_reset.UseVisualStyleBackColor = false;
+            this.btn_reset.Visible = false;
+            this.btn_reset.Click += new System.EventHandler(this.btn_reset_Click);
+            // 
+            // label_import
+            // 
+            this.label_import.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_import.Location = new System.Drawing.Point(501, 179);
+            this.label_import.Name = "label_import";
+            this.label_import.Size = new System.Drawing.Size(139, 50);
+            this.label_import.TabIndex = 8;
+            this.label_import.Text = "Import Successful. Using Imported data.";
+            this.label_import.Visible = false;
+            // 
+            // btn_import
+            // 
+            this.btn_import.BackColor = System.Drawing.Color.Gainsboro;
+            this.btn_import.BackgroundColor = System.Drawing.Color.Gainsboro;
+            this.btn_import.BorderColor = System.Drawing.Color.Black;
+            this.btn_import.BorderRadius = 0;
+            this.btn_import.BorderSize = 1;
+            this.btn_import.FlatAppearance.BorderSize = 0;
+            this.btn_import.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_import.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_import.ForeColor = System.Drawing.Color.Black;
+            this.btn_import.Location = new System.Drawing.Point(189, 175);
+            this.btn_import.Name = "btn_import";
+            this.btn_import.Size = new System.Drawing.Size(150, 40);
+            this.btn_import.TabIndex = 7;
+            this.btn_import.Text = "Import Data";
+            this.btn_import.TextColor = System.Drawing.Color.Black;
+            this.btn_import.UseVisualStyleBackColor = false;
+            this.btn_import.Click += new System.EventHandler(this.btn_import_Click);
             // 
             // panel2
             // 
@@ -174,36 +227,6 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Start Date";
             // 
-            // btn_import
-            // 
-            this.btn_import.BackColor = System.Drawing.Color.Gainsboro;
-            this.btn_import.BackgroundColor = System.Drawing.Color.Gainsboro;
-            this.btn_import.BorderColor = System.Drawing.Color.Black;
-            this.btn_import.BorderRadius = 0;
-            this.btn_import.BorderSize = 1;
-            this.btn_import.FlatAppearance.BorderSize = 0;
-            this.btn_import.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_import.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_import.ForeColor = System.Drawing.Color.Black;
-            this.btn_import.Location = new System.Drawing.Point(189, 175);
-            this.btn_import.Name = "btn_import";
-            this.btn_import.Size = new System.Drawing.Size(150, 40);
-            this.btn_import.TabIndex = 7;
-            this.btn_import.Text = "Import Data";
-            this.btn_import.TextColor = System.Drawing.Color.Black;
-            this.btn_import.UseVisualStyleBackColor = false;
-            this.btn_import.Click += new System.EventHandler(this.btn_import_Click);
-            // 
-            // label_import
-            // 
-            this.label_import.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_import.Location = new System.Drawing.Point(501, 179);
-            this.label_import.Name = "label_import";
-            this.label_import.Size = new System.Drawing.Size(139, 50);
-            this.label_import.TabIndex = 8;
-            this.label_import.Text = "Import Successful. Using Imported data.";
-            this.label_import.Visible = false;
-            // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -236,6 +259,7 @@
         private System.Windows.Forms.Label label4;
         private CustomControls.RJControls.RJButton btn_import;
         private System.Windows.Forms.Label label_import;
+        private CustomControls.RJControls.RJButton btn_reset;
     }
 }
 

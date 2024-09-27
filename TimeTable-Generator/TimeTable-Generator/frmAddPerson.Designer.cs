@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_date = new CustomControls.RJControls.RJButton();
+            this.label_shift_total = new System.Windows.Forms.Label();
+            this.label_shift_assign = new System.Windows.Forms.Label();
             this.label_holidays = new System.Windows.Forms.Label();
             this.btn_holidays = new CustomControls.RJControls.RJButton();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -52,8 +55,6 @@
             this.AssignedShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeekdayShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeekendShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label_shift_total = new System.Windows.Forms.Label();
-            this.label_shift_assign = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -63,6 +64,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.AntiqueWhite;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.btn_date);
             this.panel1.Controls.Add(this.label_shift_total);
             this.panel1.Controls.Add(this.label_shift_assign);
             this.panel1.Controls.Add(this.label_holidays);
@@ -83,6 +85,46 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 597);
             this.panel1.TabIndex = 0;
+            // 
+            // btn_date
+            // 
+            this.btn_date.BackColor = System.Drawing.Color.MediumPurple;
+            this.btn_date.BackgroundColor = System.Drawing.Color.MediumPurple;
+            this.btn_date.BorderColor = System.Drawing.Color.Black;
+            this.btn_date.BorderRadius = 0;
+            this.btn_date.BorderSize = 1;
+            this.btn_date.FlatAppearance.BorderSize = 0;
+            this.btn_date.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_date.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_date.ForeColor = System.Drawing.Color.White;
+            this.btn_date.Location = new System.Drawing.Point(187, 156);
+            this.btn_date.Name = "btn_date";
+            this.btn_date.Size = new System.Drawing.Size(150, 30);
+            this.btn_date.TabIndex = 24;
+            this.btn_date.Text = "Change Dates**";
+            this.btn_date.TextColor = System.Drawing.Color.White;
+            this.btn_date.UseVisualStyleBackColor = false;
+            this.btn_date.Click += new System.EventHandler(this.btn_date_Click);
+            // 
+            // label_shift_total
+            // 
+            this.label_shift_total.AutoSize = true;
+            this.label_shift_total.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label_shift_total.Location = new System.Drawing.Point(475, 71);
+            this.label_shift_total.Name = "label_shift_total";
+            this.label_shift_total.Size = new System.Drawing.Size(99, 17);
+            this.label_shift_total.TabIndex = 22;
+            this.label_shift_total.Text = "Total Shifts : 0";
+            // 
+            // label_shift_assign
+            // 
+            this.label_shift_assign.AutoSize = true;
+            this.label_shift_assign.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label_shift_assign.Location = new System.Drawing.Point(475, 88);
+            this.label_shift_assign.Name = "label_shift_assign";
+            this.label_shift_assign.Size = new System.Drawing.Size(157, 17);
+            this.label_shift_assign.TabIndex = 23;
+            this.label_shift_assign.Text = "Total Shifts Assigned: 0";
             // 
             // label_holidays
             // 
@@ -116,9 +158,9 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(629, 36);
+            this.progressBar1.Location = new System.Drawing.Point(677, 36);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(169, 23);
+            this.progressBar1.Size = new System.Drawing.Size(118, 23);
             this.progressBar1.TabIndex = 19;
             this.progressBar1.Visible = false;
             // 
@@ -227,7 +269,7 @@
             this.label_date.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_date.Location = new System.Drawing.Point(6, 36);
             this.label_date.Name = "label_date";
-            this.label_date.Size = new System.Drawing.Size(606, 35);
+            this.label_date.Size = new System.Drawing.Size(548, 35);
             this.label_date.TabIndex = 13;
             this.label_date.Text = "Creating Timetable From DD/MM/yyyy to DD/MM/yyyy";
             // 
@@ -376,26 +418,6 @@
             this.WeekendShifts.ReadOnly = true;
             this.WeekendShifts.Width = 79;
             // 
-            // label_shift_total
-            // 
-            this.label_shift_total.AutoSize = true;
-            this.label_shift_total.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label_shift_total.Location = new System.Drawing.Point(475, 71);
-            this.label_shift_total.Name = "label_shift_total";
-            this.label_shift_total.Size = new System.Drawing.Size(99, 17);
-            this.label_shift_total.TabIndex = 22;
-            this.label_shift_total.Text = "Total Shifts : 0";
-            // 
-            // label_shift_assign
-            // 
-            this.label_shift_assign.AutoSize = true;
-            this.label_shift_assign.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label_shift_assign.Location = new System.Drawing.Point(475, 88);
-            this.label_shift_assign.Name = "label_shift_assign";
-            this.label_shift_assign.Size = new System.Drawing.Size(157, 17);
-            this.label_shift_assign.TabIndex = 23;
-            this.label_shift_assign.Text = "Total Shifts Assigned: 0";
-            // 
             // frmAddPerson
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -443,5 +465,6 @@
         private System.Windows.Forms.Label label_holidays;
         private System.Windows.Forms.Label label_shift_total;
         private System.Windows.Forms.Label label_shift_assign;
+        private CustomControls.RJControls.RJButton btn_date;
     }
 }

@@ -82,6 +82,7 @@ namespace TimeTable_Generator
 
                 label_import.Visible = true;
                 Imported = true;
+                btn_reset.Visible = true;
             }
         }
         private ExportData ImportDataFromFile()
@@ -107,6 +108,18 @@ namespace TimeTable_Generator
             }
 
             return null;
+        }
+
+        private void btn_reset_Click(object sender, EventArgs e)
+        {
+            date_end.Value = DateTime.Now;
+            date_start.Value= DateTime.Now;
+
+            Imported = false;
+
+            label_import.Visible = false;
+
+            btn_reset.Visible = false;
         }
     }
 }
