@@ -12,10 +12,39 @@ A powerful tool for creating a balanced on-call schedule, specifically designed 
 
 ## Installation
 
+## Installation
+
 ### Prerequisites
 
-- [.NET Framework or .NET Core](https://dotnet.microsoft.com/download) (version XYZ)
-- Any other necessary dependencies specific to your project.
+- [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48)
+- No other dependencies required.
+
+### Steps to Install
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/Beseri-Tech/OnCall-Shift-Assignment.git
+    ```
+
+2. Navigate to the project directory:
+
+    ```bash
+    cd OnCall-Shift-Assignment
+    ```
+
+3. Build the project in your IDE (e.g., Visual Studio) or using the .NET CLI:
+
+    ```bash
+    dotnet build
+    ```
+
+4. Run the program:
+
+    ```bash
+    dotnet run
+    ```
+
 
 ### Steps to Install
 
@@ -86,5 +115,3 @@ We welcome contributions! Please follow these steps:
 This project is licensed under the [AGPL-3.0 License](LICENSE.txt).
 
 ---
-
-Feel free to modify this based on any new features or changes! This structure ensures clarity for users and contributors.
