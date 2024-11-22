@@ -21,7 +21,29 @@ namespace TimeTable_Generator
             this.people = people;
             titleBar1.SetParentForm(this);
             btn_save.Click += btn_save_Click;
+            this.KeyPreview = true;
+            this.KeyUp += FrmAddPersonDetails_KeyUp;
         }
+
+        private void FrmAddPersonDetails_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Delete)
+            {
+                if (list_leavedates.SelectedItem != null)
+                {
+                    list_leavedates.Items.Remove(list_leavedates.SelectedItem);
+                }
+                else if (list_preferred.SelectedItem != null)
+                {
+                    list_preferred.Items.Remove(list_preferred.SelectedItem);
+                }
+                else
+                {
+                    MessageBox.Show("Please select a date in either list to delete.");
+                }
+            }
+        }
+
         public frmAddPersonDetails(List<Person> people,Person personToUpdate)
         {
             InitializeComponent();
@@ -30,6 +52,8 @@ namespace TimeTable_Generator
             this.Load += FrmAddPersonDetails_Load;
             btn_save.Click += Btn_save_Click_update;
             titleBar1.SetParentForm(this);
+            this.KeyPreview = true;
+            this.KeyUp += FrmAddPersonDetails_KeyUp;
 
         }
 
@@ -164,6 +188,22 @@ namespace TimeTable_Generator
             {
                 list_preferred.Items.Add(tx_preferred.Text);
                 FocusAndSelectTextBeforeFirstSlash(tx_preferred);
+            }
+        }
+
+        private void btn_clear_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Clear all dates?", "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (result == DialogResult.OK) {
+
+                if (list_leavedates.Items.Count > 0)
+                {
+                    list_leavedates.Items.Clear();
+                }
+                if (list_preferred.Items.Count > 0)
+                {
+                    list_preferred.Items.Clear();
+                }
             }
         }
     }   

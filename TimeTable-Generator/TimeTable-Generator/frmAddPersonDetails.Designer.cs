@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_clear = new CustomControls.RJControls.RJButton();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tx_preferred = new System.Windows.Forms.TextBox();
             this.rjButton2 = new CustomControls.RJControls.RJButton();
@@ -53,6 +54,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.AntiqueWhite;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.btn_clear);
             this.panel1.Controls.Add(this.checkBox1);
             this.panel1.Controls.Add(this.tx_preferred);
             this.panel1.Controls.Add(this.rjButton2);
@@ -72,6 +74,26 @@
             this.panel1.Size = new System.Drawing.Size(631, 453);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // btn_clear
+            // 
+            this.btn_clear.BackColor = System.Drawing.Color.Crimson;
+            this.btn_clear.BackgroundColor = System.Drawing.Color.Crimson;
+            this.btn_clear.BorderColor = System.Drawing.Color.Black;
+            this.btn_clear.BorderRadius = 0;
+            this.btn_clear.BorderSize = 1;
+            this.btn_clear.FlatAppearance.BorderSize = 0;
+            this.btn_clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_clear.ForeColor = System.Drawing.Color.White;
+            this.btn_clear.Location = new System.Drawing.Point(477, 240);
+            this.btn_clear.Name = "btn_clear";
+            this.btn_clear.Size = new System.Drawing.Size(141, 41);
+            this.btn_clear.TabIndex = 28;
+            this.btn_clear.Text = "Clear All Date";
+            this.btn_clear.TextColor = System.Drawing.Color.White;
+            this.btn_clear.UseVisualStyleBackColor = false;
+            this.btn_clear.Click += new System.EventHandler(this.btn_clear_Click);
             // 
             // checkBox1
             // 
@@ -171,11 +193,11 @@
             this.rjButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.rjButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rjButton1.ForeColor = System.Drawing.Color.Black;
-            this.rjButton1.Location = new System.Drawing.Point(477, 206);
+            this.rjButton1.Location = new System.Drawing.Point(477, 193);
             this.rjButton1.Name = "rjButton1";
             this.rjButton1.Size = new System.Drawing.Size(141, 41);
             this.rjButton1.TabIndex = 16;
-            this.rjButton1.Text = "Delete Date";
+            this.rjButton1.Text = "Delete Selected Date";
             this.rjButton1.TextColor = System.Drawing.Color.Black;
             this.rjButton1.UseVisualStyleBackColor = false;
             this.rjButton1.Click += new System.EventHandler(this.rjButton1_Click);
@@ -191,7 +213,7 @@
             this.btn_save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_save.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_save.ForeColor = System.Drawing.Color.Black;
-            this.btn_save.Location = new System.Drawing.Point(477, 253);
+            this.btn_save.Location = new System.Drawing.Point(477, 287);
             this.btn_save.Name = "btn_save";
             this.btn_save.Size = new System.Drawing.Size(141, 52);
             this.btn_save.TabIndex = 15;
@@ -328,5 +350,6 @@
         private System.Windows.Forms.TextBox tx_preferred;
         private CustomControls.RJControls.RJButton rjButton2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private CustomControls.RJControls.RJButton btn_clear;
     }
 }

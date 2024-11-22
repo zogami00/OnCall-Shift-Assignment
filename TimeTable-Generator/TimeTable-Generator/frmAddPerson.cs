@@ -59,6 +59,21 @@ namespace TimeTable_Generator
             RefreshDGV();
         }
 
+        private void ClearDates()
+        {
+            foreach (Person person in this.people)
+            {
+                person.LeaveDates.Clear();
+                person.PreferredDates.Clear();
+            }
+
+            if (publicHolidays != null)
+            {
+                publicHolidays.Clear();
+            }
+            RefreshDGV();
+        }
+
         private void FrmAddPerson_Load(object sender, EventArgs e)
         {
             // Initialize BackgroundWorker
@@ -306,5 +321,27 @@ namespace TimeTable_Generator
             changeDates.ShowDialog();
         }
 
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dataGridView1.Rows.Count > 0)
+            {
+                btn_clear.Visible = true;
+            }
+            else { btn_clear.Visible = false; }
+        }
+
+        private void btn_clear_Click(object sender, EventArgs e)
+        {
+            ClearDates();
+        }
+
+        private void dataGridView1_Paint(object sender, PaintEventArgs e)
+        {
+            if (dataGridView1.Rows.Count > 0)
+            {
+                btn_clear.Visible = true;
+            }
+            else { btn_clear.Visible = false; }
+        }
     }
 }

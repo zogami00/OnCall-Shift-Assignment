@@ -1096,12 +1096,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_96D5F5F63D62D12B65EC78D8DE799F6B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_D82FACD860CE43F6B6F973EE0D2E662C"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1879,6 +1873,12 @@
         "OwnerKey" = "8:_686035A9EE285EE4839A98DDDE5577C8"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_96D5F5F63D62D12B65EC78D8DE799F6B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -1897,6 +1897,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -1913,6 +1921,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -6141,21 +6157,21 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TimeTableGenerator"
-        "ProductCode" = "8:{6CF9518F-CB2A-4938-8517-05607398FA85}"
-        "PackageCode" = "8:{9CDA13F7-AFAD-4AEB-9857-9AA16EA790C8}"
+        "ProductCode" = "8:{12322083-68C6-4DBE-8562-8FCE773A9FF3}"
+        "PackageCode" = "8:{89FCD5E0-6119-46FE-8E6E-2E054308239A}"
         "UpgradeCode" = "8:{888071FB-99F0-4D6F-AAF0-BCF4836C0BEC}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:nurfarezghani@gmail.com"
+        "ProductVersion" = "8:1.1.0"
+        "Manufacturer" = "8:Beseri-Tech"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:TimeTableGenerator"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:nurfarezghani@gmail.com"
+        "ARPCONTACT" = "8:Beseri-Tech"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
