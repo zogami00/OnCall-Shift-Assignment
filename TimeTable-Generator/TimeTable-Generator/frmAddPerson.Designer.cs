@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_clear = new CustomControls.RJControls.RJButton();
             this.btn_date = new CustomControls.RJControls.RJButton();
             this.label_shift_total = new System.Windows.Forms.Label();
             this.label_shift_assign = new System.Windows.Forms.Label();
@@ -43,7 +44,7 @@
             this.label_date = new System.Windows.Forms.Label();
             this.label_total = new System.Windows.Forms.Label();
             this.btn_continue = new CustomControls.RJControls.RJButton();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel_titlebar = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.titleBar1 = new Button_Control.TitleBar();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -55,9 +56,8 @@
             this.AssignedShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeekdayShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WeekendShifts = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btn_clear = new CustomControls.RJControls.RJButton();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.panel_titlebar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,13 +80,34 @@
             this.panel1.Controls.Add(this.label_date);
             this.panel1.Controls.Add(this.label_total);
             this.panel1.Controls.Add(this.btn_continue);
-            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Controls.Add(this.panel_titlebar);
             this.panel1.Controls.Add(this.dataGridView1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 606);
             this.panel1.TabIndex = 0;
+            // 
+            // btn_clear
+            // 
+            this.btn_clear.BackColor = System.Drawing.Color.PaleVioletRed;
+            this.btn_clear.BackgroundColor = System.Drawing.Color.PaleVioletRed;
+            this.btn_clear.BorderColor = System.Drawing.Color.Black;
+            this.btn_clear.BorderRadius = 0;
+            this.btn_clear.BorderSize = 1;
+            this.btn_clear.FlatAppearance.BorderSize = 0;
+            this.btn_clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_clear.ForeColor = System.Drawing.Color.Black;
+            this.btn_clear.Location = new System.Drawing.Point(173, 212);
+            this.btn_clear.Name = "btn_clear";
+            this.btn_clear.Size = new System.Drawing.Size(150, 26);
+            this.btn_clear.TabIndex = 25;
+            this.btn_clear.Text = "Clear All Dates";
+            this.btn_clear.TextColor = System.Drawing.Color.Black;
+            this.btn_clear.UseVisualStyleBackColor = false;
+            this.btn_clear.Visible = false;
+            this.btn_clear.Click += new System.EventHandler(this.btn_clear_Click);
             // 
             // btn_date
             // 
@@ -305,16 +326,17 @@
             this.btn_continue.UseVisualStyleBackColor = false;
             this.btn_continue.Click += new System.EventHandler(this.btn_continue_Click);
             // 
-            // panel2
+            // panel_titlebar
             // 
-            this.panel2.BackColor = System.Drawing.Color.Orange;
-            this.panel2.Controls.Add(this.label4);
-            this.panel2.Controls.Add(this.titleBar1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(798, 30);
-            this.panel2.TabIndex = 10;
+            this.panel_titlebar.BackColor = System.Drawing.Color.Orange;
+            this.panel_titlebar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_titlebar.Controls.Add(this.label4);
+            this.panel_titlebar.Controls.Add(this.titleBar1);
+            this.panel_titlebar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel_titlebar.Location = new System.Drawing.Point(0, 0);
+            this.panel_titlebar.Name = "panel_titlebar";
+            this.panel_titlebar.Size = new System.Drawing.Size(798, 30);
+            this.panel_titlebar.TabIndex = 10;
             // 
             // label4
             // 
@@ -333,11 +355,11 @@
             this.titleBar1.CloseMessage = "Exit Application?";
             this.titleBar1.CloseTitle = "Exit";
             this.titleBar1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.titleBar1.EnableDialog = true;
-            this.titleBar1.Location = new System.Drawing.Point(694, 0);
+            this.titleBar1.EnableDialog = false;
+            this.titleBar1.Location = new System.Drawing.Point(692, 0);
             this.titleBar1.Name = "titleBar1";
             this.titleBar1.ShowMinimizeButton = false;
-            this.titleBar1.Size = new System.Drawing.Size(104, 30);
+            this.titleBar1.Size = new System.Drawing.Size(104, 28);
             this.titleBar1.TabIndex = 0;
             // 
             // dataGridView1
@@ -422,27 +444,6 @@
             this.WeekendShifts.ReadOnly = true;
             this.WeekendShifts.Width = 79;
             // 
-            // btn_clear
-            // 
-            this.btn_clear.BackColor = System.Drawing.Color.PaleVioletRed;
-            this.btn_clear.BackgroundColor = System.Drawing.Color.PaleVioletRed;
-            this.btn_clear.BorderColor = System.Drawing.Color.Black;
-            this.btn_clear.BorderRadius = 0;
-            this.btn_clear.BorderSize = 1;
-            this.btn_clear.FlatAppearance.BorderSize = 0;
-            this.btn_clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_clear.ForeColor = System.Drawing.Color.Black;
-            this.btn_clear.Location = new System.Drawing.Point(173, 212);
-            this.btn_clear.Name = "btn_clear";
-            this.btn_clear.Size = new System.Drawing.Size(150, 26);
-            this.btn_clear.TabIndex = 25;
-            this.btn_clear.Text = "Clear All Dates";
-            this.btn_clear.TextColor = System.Drawing.Color.Black;
-            this.btn_clear.UseVisualStyleBackColor = false;
-            this.btn_clear.Visible = false;
-            this.btn_clear.Click += new System.EventHandler(this.btn_clear_Click);
-            // 
             // frmAddPerson
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -455,8 +456,8 @@
             this.Text = "frmAddPerson";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.panel_titlebar.ResumeLayout(false);
+            this.panel_titlebar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
@@ -466,7 +467,7 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel_titlebar;
         private System.Windows.Forms.Label label4;
         private Button_Control.TitleBar titleBar1;
         private CustomControls.RJControls.RJButton btn_continue;

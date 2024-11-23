@@ -34,11 +34,11 @@
             this.date_start = new Button_Control.DTP.RJDatePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.date_end = new Button_Control.DTP.RJDatePicker();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel_titlebar = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.titleBar1 = new Button_Control.TitleBar();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.panel_titlebar.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -122,16 +122,16 @@
             this.date_end.TabIndex = 4;
             this.date_end.TextColor = System.Drawing.Color.Black;
             // 
-            // panel2
+            // panel_titlebar
             // 
-            this.panel2.BackColor = System.Drawing.Color.Orange;
-            this.panel2.Controls.Add(this.label4);
-            this.panel2.Controls.Add(this.titleBar1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(587, 30);
-            this.panel2.TabIndex = 11;
+            this.panel_titlebar.BackColor = System.Drawing.Color.Orange;
+            this.panel_titlebar.Controls.Add(this.label4);
+            this.panel_titlebar.Controls.Add(this.titleBar1);
+            this.panel_titlebar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel_titlebar.Location = new System.Drawing.Point(0, 0);
+            this.panel_titlebar.Name = "panel_titlebar";
+            this.panel_titlebar.Size = new System.Drawing.Size(587, 30);
+            this.panel_titlebar.TabIndex = 11;
             // 
             // label4
             // 
@@ -150,7 +150,7 @@
             this.titleBar1.CloseMessage = "Exit Application?";
             this.titleBar1.CloseTitle = "Exit";
             this.titleBar1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.titleBar1.EnableDialog = true;
+            this.titleBar1.EnableDialog = false;
             this.titleBar1.Location = new System.Drawing.Point(483, 0);
             this.titleBar1.Name = "titleBar1";
             this.titleBar1.ShowMinimizeButton = false;
@@ -162,7 +162,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(587, 175);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel_titlebar);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "frmChangeDates";
@@ -170,8 +170,8 @@
             this.Text = "frmChangeDates";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.panel_titlebar.ResumeLayout(false);
+            this.panel_titlebar.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -179,7 +179,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel_titlebar;
         private System.Windows.Forms.Label label4;
         private Button_Control.TitleBar titleBar1;
         private System.Windows.Forms.Label label2;

@@ -1,4 +1,5 @@
 ﻿using CustomControls.RJControls;
+using IMS_Project.Class.Styles;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +21,8 @@ namespace TimeTable_Generator
             this.publicHolidays = publicHolidays;
             this.Load += FrmPublicHolidays_Load;
             titleBar1.SetParentForm(this);
+            TitleBarPanelStyler.ApplyTitleBarPanelStyle(panel_titlebar, this);
+
         }
 
         private void FrmPublicHolidays_Load(object sender, EventArgs e)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -75,7 +76,10 @@ namespace TimeTable_Generator
             return targets;
         }
 
-
+        private void LogDebugMessage(string message)
+        {
+            Debug.WriteLine(message);
+        }
         // Assign regular shifts (both weekdays and weekends) across months
         private void AssignRegularShifts(List<Person> people, List<DateTime> weekdays, List<DateTime> weekendAndHolidays, HashSet<DateTime> assignedShifts, Action<int> reportProgress, ref int progress, int totalShifts, Dictionary<Person, Dictionary<int, int>> monthlyShiftTargets)
         {
@@ -124,7 +128,15 @@ namespace TimeTable_Generator
                 {
                     reason = $"{currentPerson.Name} is on leave for {date.ToShortDateString()}.";
                 }
-                else if (currentPerson.LastAssignedShift.HasValue && (date - currentPerson.LastAssignedShift.Value).Days == 1)
+                else if (currentPerson.AssignedShifts.Any(existingShift => Math.Abs((date - existingShift).Days) == 1))
+                {
+                    reason = $"{currentPerson.Name} has a consecutive shift issue for {date.ToShortDateString()}.";
+                }
+                else if (currentPerson.AssignedShifts.Any(existingShift => Math.Abs((date - existingShift).Days) == 2))
+                {
+                    reason = $"{currentPerson.Name} has a consecutive shift issue for {date.ToShortDateString()}.";
+                }
+                else if (currentPerson.AssignedShifts.Any(existingShift => Math.Abs((date - existingShift).Days) == 3))
                 {
                     reason = $"{currentPerson.Name} has a consecutive shift issue for {date.ToShortDateString()}.";
                 }
@@ -246,7 +258,7 @@ namespace TimeTable_Generator
         // Validation for assigned shifts (not implemented yet)
         private void ValidateAssignedShifts(List<Person> people, int totalAvailableShifts)
         {
-            // You can add validation here to ensure all shifts were assigned
+            ValidateNoConsecutiveShifts(people);
         }
 
         private List<DateTime> GetAllDates(DateTime startDate, DateTime endDate)
@@ -258,5 +270,27 @@ namespace TimeTable_Generator
             }
             return allDates;
         }
+        private void ValidateNoConsecutiveShifts(List<Person> people)
+        {
+            foreach (var person in people)
+            {
+                // Ensure shifts are sorted
+                var shifts = person.AssignedShifts.OrderBy(d => d).ToList();
+
+                // Check for consecutive shifts
+                for (int i = 1; i < shifts.Count; i++)
+                {
+                    if (((shifts[i] - shifts[i - 1]).Days >= 1) && ((shifts[i] - shifts[i - 1]).Days <= 2))
+                    {
+                        MessageBox.Show(
+                            $"Consecutive shifts detected for {person.Name} on {shifts[i - 1]:yyyy-MM-dd} and {shifts[i]:yyyy-MM-dd}."
+                        );
+                    }
+                }
+            }
+        }
+
+
+
     }
 }

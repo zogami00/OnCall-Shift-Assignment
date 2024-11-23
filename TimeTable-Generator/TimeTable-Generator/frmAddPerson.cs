@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
+using IMS_Project.Class.Styles;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,6 +28,8 @@ namespace TimeTable_Generator
         {
             InitializeComponent();
             titleBar1.SetParentForm(this);
+            TitleBarPanelStyler.ApplyTitleBarPanelStyle(panel_titlebar, this);
+
             StartDate = startDate;
             EndDate = endDate;
             this.Load += FrmAddPerson_Load;
@@ -34,13 +37,13 @@ namespace TimeTable_Generator
             publicHolidays = new List<DateTime>();
             dataGridView1.AutoGenerateColumns = false;
             this.Shown += FrmAddPerson_Shown;
-
-
         }
         public frmAddPerson(DateTime startDate, DateTime endDate, List<Person> people, List<DateTime> publicHolidays)
         {
             InitializeComponent();
             titleBar1.SetParentForm(this);
+            TitleBarPanelStyler.ApplyTitleBarPanelStyle(panel_titlebar, this);
+
             StartDate = startDate;
             EndDate = endDate;
             this.Load += FrmAddPerson_Load;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IMS_Project.Class.Styles;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,6 +21,7 @@ namespace TimeTable_Generator
             InitializeComponent();
             this.people = people;
             titleBar1.SetParentForm(this);
+            TitleBarPanelStyler.ApplyTitleBarPanelStyle(panel_titlebar, this);
             btn_save.Click += btn_save_Click;
             this.KeyPreview = true;
             this.KeyUp += FrmAddPersonDetails_KeyUp;
@@ -36,11 +38,7 @@ namespace TimeTable_Generator
                 else if (list_preferred.SelectedItem != null)
                 {
                     list_preferred.Items.Remove(list_preferred.SelectedItem);
-                }
-                else
-                {
-                    MessageBox.Show("Please select a date in either list to delete.");
-                }
+                }   
             }
         }
 
@@ -52,6 +50,7 @@ namespace TimeTable_Generator
             this.Load += FrmAddPersonDetails_Load;
             btn_save.Click += Btn_save_Click_update;
             titleBar1.SetParentForm(this);
+            TitleBarPanelStyler.ApplyTitleBarPanelStyle(panel_titlebar, this);
             this.KeyPreview = true;
             this.KeyUp += FrmAddPersonDetails_KeyUp;
 
@@ -153,10 +152,52 @@ namespace TimeTable_Generator
         {
             if (!string.IsNullOrEmpty(tx_leavedate.Text))
             {
-                list_leavedates.Items.Add(tx_leavedate.Text);
+                string input = tx_leavedate.Text.Trim();
+
+                // Check if input contains a range indicator, like "to"
+                if (input.Contains("to"))
+                {
+                    string[] parts = input.Split(new string[] { "to" }, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (parts.Length == 2 &&
+                        DateTime.TryParse(parts[0].Trim(), out DateTime startDate) &&
+                        DateTime.TryParse(parts[1].Trim(), out DateTime endDate))
+                    {
+                        if (startDate <= endDate)
+                        {
+                            for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+                            {
+                                list_leavedates.Items.Add(date.ToString("yyyy-MM-dd")); // Customize the format if needed
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("The start date must be earlier than or equal to the end date.", "Invalid Range", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please enter a valid date range (e.g., 2024-11-01 to 2024-11-05).", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                else
+                {
+                    // Add a single date
+                    if (DateTime.TryParse(input, out DateTime singleDate))
+                    {
+                        list_leavedates.Items.Add(singleDate.ToString("yyyy-MM-dd")); // Customize the format if needed
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please enter a valid date (e.g., 2024-11-01) or a range (e.g., 2024-11-01 to 2024-11-05).", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+
+                // Refocus and reset the textbox
                 FocusAndSelectTextBeforeFirstSlash(tx_leavedate);
             }
         }
+
         private void FocusAndSelectTextBeforeFirstSlash(TextBox textBox)
         {
             // Focus the TextBox

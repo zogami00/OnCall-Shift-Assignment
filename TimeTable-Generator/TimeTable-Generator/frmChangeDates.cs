@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
+using IMS_Project.Class.Styles;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +21,8 @@ namespace TimeTable_Generator
         {
             InitializeComponent();
             titleBar1.SetParentForm(this);
+            TitleBarPanelStyler.ApplyTitleBarPanelStyle(panel_titlebar, this);
+
             this.StartDate = startdate;
             this.EndDate = enddate;
             this.Load += FrmChangeDates_Load;

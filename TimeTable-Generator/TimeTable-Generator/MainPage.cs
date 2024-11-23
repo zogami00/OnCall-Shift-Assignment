@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Office2013.Word;
 using DocumentFormat.OpenXml.Wordprocessing;
+using IMS_Project.Class.Styles;
 using MongoDB.Bson.IO;
 using Newtonsoft.Json;
 using System;
@@ -28,6 +29,8 @@ namespace TimeTable_Generator
         {
             InitializeComponent();
             titleBar1.SetParentForm(this);
+            TitleBarPanelStyler.ApplyTitleBarPanelStyle(panel_titlebar, this);
+
             people = new List<Person>();
 
         }

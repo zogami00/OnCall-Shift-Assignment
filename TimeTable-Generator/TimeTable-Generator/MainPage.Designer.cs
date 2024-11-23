@@ -34,7 +34,7 @@
             this.btn_reset = new CustomControls.RJControls.RJButton();
             this.label_import = new System.Windows.Forms.Label();
             this.btn_import = new CustomControls.RJControls.RJButton();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel_titlebar = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.titleBar1 = new Button_Control.TitleBar();
             this.btn_continue = new CustomControls.RJControls.RJButton();
@@ -42,7 +42,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.panel_titlebar.SuspendLayout();
             this.SuspendLayout();
             // 
             // date_end
@@ -78,7 +78,7 @@
             this.panel1.Controls.Add(this.btn_reset);
             this.panel1.Controls.Add(this.label_import);
             this.panel1.Controls.Add(this.btn_import);
-            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Controls.Add(this.panel_titlebar);
             this.panel1.Controls.Add(this.btn_continue);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
@@ -142,16 +142,16 @@
             this.btn_import.UseVisualStyleBackColor = false;
             this.btn_import.Click += new System.EventHandler(this.btn_import_Click);
             // 
-            // panel2
+            // panel_titlebar
             // 
-            this.panel2.BackColor = System.Drawing.Color.Orange;
-            this.panel2.Controls.Add(this.label4);
-            this.panel2.Controls.Add(this.titleBar1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(697, 30);
-            this.panel2.TabIndex = 6;
+            this.panel_titlebar.BackColor = System.Drawing.Color.Orange;
+            this.panel_titlebar.Controls.Add(this.label4);
+            this.panel_titlebar.Controls.Add(this.titleBar1);
+            this.panel_titlebar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel_titlebar.Location = new System.Drawing.Point(0, 0);
+            this.panel_titlebar.Name = "panel_titlebar";
+            this.panel_titlebar.Size = new System.Drawing.Size(697, 30);
+            this.panel_titlebar.TabIndex = 6;
             // 
             // label4
             // 
@@ -239,8 +239,8 @@
             this.Text = "Form1";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.panel_titlebar.ResumeLayout(false);
+            this.panel_titlebar.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -254,7 +254,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private CustomControls.RJControls.RJButton btn_continue;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel_titlebar;
         private Button_Control.TitleBar titleBar1;
         private System.Windows.Forms.Label label4;
         private CustomControls.RJControls.RJButton btn_import;
