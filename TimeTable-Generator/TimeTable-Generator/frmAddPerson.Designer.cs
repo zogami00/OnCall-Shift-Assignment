@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chk_double = new System.Windows.Forms.CheckBox();
             this.btn_clear = new CustomControls.RJControls.RJButton();
             this.btn_date = new CustomControls.RJControls.RJButton();
             this.label_shift_total = new System.Windows.Forms.Label();
@@ -65,6 +66,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.AntiqueWhite;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.chk_double);
             this.panel1.Controls.Add(this.btn_clear);
             this.panel1.Controls.Add(this.btn_date);
             this.panel1.Controls.Add(this.label_shift_total);
@@ -87,6 +89,18 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 606);
             this.panel1.TabIndex = 0;
+            // 
+            // chk_double
+            // 
+            this.chk_double.AutoSize = true;
+            this.chk_double.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chk_double.Location = new System.Drawing.Point(638, 85);
+            this.chk_double.Name = "chk_double";
+            this.chk_double.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.chk_double.Size = new System.Drawing.Size(154, 20);
+            this.chk_double.TabIndex = 26;
+            this.chk_double.Text = "Double Shift (Tagger)";
+            this.chk_double.UseVisualStyleBackColor = true;
             // 
             // btn_clear
             // 
@@ -493,5 +507,6 @@
         private System.Windows.Forms.Label label_shift_assign;
         private CustomControls.RJControls.RJButton btn_date;
         private CustomControls.RJControls.RJButton btn_clear;
+        private System.Windows.Forms.CheckBox chk_double;
     }
 }

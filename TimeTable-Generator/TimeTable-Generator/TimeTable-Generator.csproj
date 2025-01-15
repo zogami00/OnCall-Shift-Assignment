@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTransferClass.cs" />
+    <Compile Include="DoubleShiftsAlgorithm.cs" />
     <Compile Include="frmAddPersonDetails.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -114,13 +114,24 @@ namespace TimeTable_Generator
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             ShiftsAlgorithm shiftsAlgorithm = new ShiftsAlgorithm();
+            DoubleShiftsAlgorithm doubleShiftsAlgorithm = new DoubleShiftsAlgorithm();
 
             // Call the algorithm and pass a lambda function for progress reporting
-            
-            shiftsAlgorithm.AssignShifts(people, StartDate, EndDate, publicHolidays, progress =>
+            if(chk_double.Checked)
             {
-                backgroundWorker.ReportProgress(progress); // Report progress to UI
-            });
+                doubleShiftsAlgorithm.AssignShifts(people, StartDate, EndDate, publicHolidays, progress =>
+                {
+                    backgroundWorker.ReportProgress(progress); // Report progress to UI
+                });
+            }
+            else
+            {
+                shiftsAlgorithm.AssignShifts(people, StartDate, EndDate, publicHolidays, progress =>
+                {
+                    backgroundWorker.ReportProgress(progress); // Report progress to UI
+                });
+            }
+            
         }
 
         // Event handler for reporting progress
